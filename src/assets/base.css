@@ -19,6 +19,18 @@
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+
+  --grayscale-waterloo: #787e94;
+  --grayscale-licorice: #e6ebf5;
+  --cold-purple: #9b9eff;
+  --grayscale-white: #18212c;
+  --grayscale-ghost-white: #27303d;
+  --grayscale-milk-white: #1b2531;
+  --cyclone-pattern: url(/src/assets/images/cyclone-pattern.webp);
+  --cyclone-desktop-pattern: url(/src/assets/images/cyclone-desktop-pattern.webp);
+
+  --font-poppins: "__Poppins_19aa22", "__Poppins_Fallback_19aa22";
+  --font-karla: "__Karla_debc80", "__Karla_Fallback_debc80";
 }
 
 /* semantic color variables for this project */
@@ -62,23 +74,25 @@ body {
   min-height: 100vh;
   color: var(--color-text);
   background: var(--color-background);
+  background-image: url('/src/assets/images/cyclone-desktop-pattern.webp');
   transition:
     color 0.5s,
     background-color 0.5s;
   line-height: 1.6;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
+  /*font-family:*/
+  /*  Inter,*/
+  /*  -apple-system,*/
+  /*  BlinkMacSystemFont,*/
+  /*  'Segoe UI',*/
+  /*  Roboto,*/
+  /*  Oxygen,*/
+  /*  Ubuntu,*/
+  /*  Cantarell,*/
+  /*  'Fira Sans',*/
+  /*  'Droid Sans',*/
+  /*  'Helvetica Neue',*/
+  /*  sans-serif;*/
+  font-family: 'karla', sans-serif;
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

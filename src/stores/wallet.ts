@@ -1,24 +1,27 @@
-import { ref } from 'vue';
-import { defineStore } from 'pinia';
-
-interface Wallet {
-  name: string;
-  id: string;
-}
+import { ref } from 'vue'
+import { defineStore } from 'pinia'
 
 export const useWalletStore = defineStore('wallet', () => {
   const wallet = ref<Wallet>({
     name: '',
-    id: '',
-  });
+    // id: '',
+  })
 
+  // function connectWallet(name: string, id: string) {
+  //   wallet.value = { name, id }
+  // }
 
-  function connectWallet(name: string, id: string) {
-    wallet.value = { name, id };
+  function connectWallet(name: string) {
+    wallet.value = { name }
   }
+
+  // function disconnectWallet() {
+  //   wallet.value = { name: '', id: '' }
+  // }
 
   function disconnectWallet() {
-    wallet.value = { name: '', id: '' };
+    wallet.value = { name: '' }
   }
-  return { walletName, walletId, connectWallet, disconnectWallet };
-});
+
+  return { wallet, connectWallet, disconnectWallet }
+})
