@@ -4,7 +4,7 @@ import IconIagon from '@/components/icons/IconIagon.vue'
 import CustomButton from '@/components/UI/CustomButton.vue'
 import { ref } from 'vue'
 import ProductDetailsModal from '@/components/ProductDetailsModal.vue'
-import PreorderModal from '@/components/PreorderModal.vue'
+import PreorderModal from '@/components/PreorderModal/index.vue'
 
 const isDetailsOpen = ref(false)
 const isPreorderOpen = ref(false)

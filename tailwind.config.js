@@ -12,6 +12,8 @@ export default {
         'cyclone-desktop-pattern': 'var(--cyclone-desktop-pattern)',
         'grayscale-ghost-white': 'var(--grayscale-ghost-white)',
         'grayscale-milk-white': 'var(--grayscale-milk-white)',
+        'grayscale-line': 'var(--grayscale-line)',
+        'grayscale-line-2': 'var(--grayscale-line-2)',
       },
       fontFamily: {
         poppins: ['var(--font-poppins)', 'sans-serif'],

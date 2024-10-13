@@ -26,6 +26,8 @@
   --grayscale-white: #18212c;
   --grayscale-ghost-white: #27303d;
   --grayscale-milk-white: #1b2531;
+  --grayscale-line: #323a47;
+  --grayscale-line-2: #242c39;
   --cyclone-pattern: url(/src/assets/images/cyclone-pattern.webp);
   --cyclone-desktop-pattern: url(/src/assets/images/cyclone-desktop-pattern.webp);
 
