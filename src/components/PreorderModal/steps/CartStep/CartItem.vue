@@ -2,17 +2,13 @@
 import { defineEmits, defineProps } from 'vue'
 import IconMinus from '@/components/icons/IconMinus.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
-import { CartItem } from '@/stores/cart'
+import { CartItem, PRODUCT_NAME } from '@/stores/cart'
 
 interface Props {
   item: CartItem
 }
 
 const { item } = defineProps<Props>()
-
-console.log('TEST item', item)
-const [title, ...rest] = item.name.split(' ')
-const subTitle = rest.join(' ')
 
 const emit = defineEmits(['onIncrease', 'onDecrease'])
 </script>
@@ -24,8 +20,8 @@ const emit = defineEmits(['onIncrease', 'onDecrease'])
     <p
       class="flex gap-2 items-end font-poppins text-sm leading-6 md:text-xl font-medium text-grayscaleLicorice"
     >
-      {{ title }}
-      <span class="text-purple-cold font-poppins">{{ subTitle }}</span>
+      {{ PRODUCT_NAME }}
+      <span class="text-purple-cold font-poppins">{{ item.name }}</span>
       <span
         v-if="!item.isFull"
         class="md:text-sm md:leading-[22px] md:font-normal font-poppins"
@@ -49,7 +45,10 @@ const emit = defineEmits(['onIncrease', 'onDecrease'])
           <IconMinus />
         </button>
         <span
-          class="font-poppins text-xl leading-5 w-10 text-center font-semibold text-grayscaleWaterloo"
+          :class="[
+            'font-poppins text-xl leading-5 w-10 text-center font-semibold',
+            item.quantity > 0 ? 'text-purple-cold' : 'text-grayscaleWaterloo',
+          ]"
           >{{ item.quantity }}</span
         >
         <button

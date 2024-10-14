@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import { useCartStore } from '../stores/cart';
+import { useCartStore } from '../stores/cart'
 
-const cartStore = useCartStore();
+const cartStore = useCartStore()
 
 function addToCart() {
   console.log('CLICK')
-  cartStore.addItem('Cyclone QS', 1359, 1);
+  cartStore.addItem('Cyclone QS', 1359, 1)
 }
-
 </script>
 
 <template>
-  <div class="preorder">
+  <div class="preorder overflow-y-auto">
     <h1>This is preorder page</h1>
     <button @click="addToCart">add</button>
     <RouterLink to="/">&#10005;</RouterLink>
@@ -23,9 +22,7 @@ function addToCart() {
   .preorder {
     min-height: 100vh;
     display: flex;
-    align-items: center;
+    //align-items: center;
   }
 }
 </style>
-
-

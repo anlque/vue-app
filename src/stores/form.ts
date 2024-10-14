@@ -1,49 +1,89 @@
-import { ref } from 'vue';
-import { defineStore } from 'pinia';
+import { ref } from 'vue'
+import { defineStore } from 'pinia'
 
-interface Address {
-  street: string;
-  apartment: string;
-  city: string;
-  postalCode: string;
-  state: string;
-  country: string;
+interface FormState {
+  fullName: string
+  phone: string
+  email: string
+  street: string
+  apartment: string
+  city: string
+  postalCode: string
+  state: string
+  country: string
+}
+const regexPatterns = {
+  fullName: /^[\p{L}\s]+$/u,
+  phone: /^\+?\d{10,15}$/,
+  email: /[^@\s]+@[^@\s]+\.[^@\s]+/,
+  street: /^[\p{L}\s]+$/u,
+  apartment: /^[\p{L}\s]+$/u,
+  city: /^[\p{L}\s]+$/u,
+  postalCode: /^[0-9]{5}(?:-[0-9]{4})?$/,
+  state: /^[\p{L}\s]+$/u,
+  country: /^[\p{L}\s]+$/u,
 }
 
-// interface ShippingInfo {
-//   fullName: string;
-//   phone: string;
-//   email: string;
-//   address: Address;
-// }
-
 export const useFormStore = defineStore('form', () => {
-  const fullName = ref<string>('');
-  const phone = ref<string>('');
-  const email = ref<string>('');
-  const address = ref<Address>({
+  const form = ref<FormState>({
+    // contact info
+    fullName: '',
+    phone: '',
+    email: '',
+    // address
     street: '',
     apartment: '',
     city: '',
     postalCode: '',
-    state:'',
+    state: '',
     country: '',
-  });
+  })
 
-  function updateFullName(newFullName: string) {
-    fullName.value = newFullName;
+  const errors = ref({
+    fullName: false,
+    email: false,
+    phone: false,
+    street: false,
+    city: false,
+    postalCode: false,
+    state: false,
+    country: false,
+  })
+
+  // function updateFullName(newFullName: string) {
+  //   fullName.value = newFullName
+  // }
+  //
+  // function updatePhone(newPhone: string) {
+  //   phone.value = newPhone
+  // }
+  //
+  // function updateEmail(newEmail: string) {
+  //   email.value = newEmail
+  // }
+
+  function updateField(field: keyof FormState, value: string) {
+    if (errors.value[field] && regexPatterns[field].test(value)) {
+      console.log('test')
+      errors.value[field] = false
+    } else if (value.length === 0) {
+      errors.value[field] = true
+    }
+    form.value[field] = value
   }
 
-  function updatePhone(newPhone: string) {
-    phone.value = newPhone;
+  function validateForm() {
+    const { fullName, email, phone, street } = form.value
+    if (!fullName) errors.value.fullName = true
+    if (!email.includes('@')) errors.value.email = true
+    if (!phone) errors.value.phone = true
+    if (!street) errors.value.street = true
+    // Добавьте остальные проверки для полей
   }
 
-  function updateEmail(newEmail: string) {
-    email.value = newEmail;
-  }
-
-  function updateAddressField(field: keyof Address, value: string) {
-    address.value[field] = value;
+  function resetFieldError(field: string) {
+    console.log('TEST RESET', field)
+    errors.value[field] = false
   }
 
   // function updateShippingInfo(data: ShippingInfo) {
@@ -53,5 +93,11 @@ export const useFormStore = defineStore('form', () => {
   //   address.value = data.address;
   // }
 
-  return { fullName, phone, email, address, updateFullName, updatePhone, updateEmail, updateAddressField};
-});
+  return {
+    form,
+    errors,
+    updateField,
+    validateForm,
+    resetFieldError,
+  }
+})

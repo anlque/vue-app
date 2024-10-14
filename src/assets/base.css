@@ -28,6 +28,7 @@
   --grayscale-milk-white: #1b2531;
   --grayscale-line: #323a47;
   --grayscale-line-2: #242c39;
+  --error-default: #ff375f;
   --cyclone-pattern: url(/src/assets/images/cyclone-pattern.webp);
   --cyclone-desktop-pattern: url(/src/assets/images/cyclone-desktop-pattern.webp);
 
@@ -99,4 +100,18 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+
+
+  .invisible-scrollbar::-webkit-scrollbar {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .invisible-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
 }

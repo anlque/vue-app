@@ -5,21 +5,23 @@ import { useWizardStore } from '@/stores/wizard'
 import { useWalletStore } from '@/stores/wallet'
 import IconLogo from '@/components/icons/IconLogo.vue'
 import IconCross from '@/components/icons/IconCross.vue'
-import IconBeginWallet from '@/components/icons/wallets/IconBeginWallet.vue'
-import IconNamiWallet from '@/components/icons/wallets/IconNamiWallet.vue'
-import IconEternlWallet from '@/components/icons/wallets/IconEternlWallet.vue'
-import IconTyphonWallet from '@/components/icons/wallets/IconTyphonWallet.vue'
-import IconGeroWallet from '@/components/icons/wallets/IconGeroWallet.vue'
-import IconFlintWallet from '@/components/icons/wallets/IconFlintWallet.vue'
-import IconYoroiWallet from '@/components/icons/wallets/IconYoroiWallet.vue'
-import IconLaceWallet from '@/components/icons/wallets/IconLaceWallet.vue'
-import IconVesprWallet from '@/components/icons/wallets/IconVesprWallet.vue'
+import {
+  IconBeginWallet,
+  IconEternlWallet,
+  IconNamiWallet,
+  IconTyphonWallet,
+  IconGeroWallet,
+  IconFlintWallet,
+  IconYoroiWallet,
+  IconLaceWallet,
+  IconVesprWallet,
+} from '@/components/icons/wallets'
 import WalletStep from '@/components/PreorderModal/steps/WalletStep.vue'
-import FormStep from '@/components/PreorderModal/steps/FormStep.vue'
-import SummaryStep from '@/components/PreorderModal/steps/SummaryStep.vue'
+import FormStep from './steps/FormStep'
+import SummaryStep from './steps/SummaryStep'
 import PaymentStep from '@/components/PreorderModal/steps/PaymentStep.vue'
 import IconPower from '@/components/icons/IconPower.vue'
-import CartStep from './steps/CartStep/index.vue'
+import CartStep from './steps/CartStep'
 import { useCartStore } from '@/stores/cart'
 
 defineProps({
@@ -94,8 +96,6 @@ const connectWallet = () => {
   if (selectedWallet.value) walletStore.connectWallet(selectedWallet.value)
 }
 
-console.log('TEST', selectedWallet)
-
 function isWalletAvailable(walletName: string): boolean {
   return !!window.cardano?.[walletName.toLowerCase()]
 }
@@ -128,7 +128,9 @@ const formattedData = computed(() => {
       class="w-full h-full mx-auto rounded-lg shadow-lg relative text-gray-900 bg-black/20"
     >
       <!--  header -->
-      <div class="flex p-5 desktop:p-[30px] justify-between items-center">
+      <div
+        class="flex p-5 desktop:p-[30px] justify-between items-center sticky h-[3.5rem]"
+      >
         <div class="flex gap-2 items-center max-h-[3.5rem]">
           <IconLogo />
           <p
@@ -177,35 +179,39 @@ const formattedData = computed(() => {
         </div>
       </div>
       <!-- content -->
-      <WalletStep
-        v-if="wizardStore.currentStep === 1"
-        :selectedWallet="selectedWallet"
-        :wallets="formattedData"
-        @onSelectWallet="walletName => selectWallet(walletName)"
-        @onResetWallet="() => selectWallet(null)"
-        @onProceedClick="
-          () => {
-            connectWallet()
-            wizardStore.nextStep()
-          }
-        "
-      />
-      <CartStep
-        v-else-if="wizardStore.currentStep === 2"
-        @onClose="emit('setIsOpen', false)"
-        @onProceedClick="wizardStore.nextStep"
-      />
-      <FormStep
-        v-else-if="wizardStore.currentStep === 3"
-        @onSaveClick="wizardStore.nextStep"
-        @onBackClick="wizardStore.prevStep"
-      />
-      <SummaryStep
-        v-else-if="wizardStore.currentStep === 4"
-        @onBackClick="wizardStore.prevStep"
-        @onProceedClick="wizardStore.nextStep"
-      />
-      <PaymentStep v-else-if="wizardStore.currentStep === 5" />
+      <div
+        class="w-full max-h-full overflow-y-auto h-[calc(100vh-3.5rem)] invisible-scrollbar"
+      >
+        <WalletStep
+          v-if="wizardStore.currentStep === 1"
+          :selectedWallet="selectedWallet"
+          :wallets="formattedData"
+          @onSelectWallet="walletName => selectWallet(walletName)"
+          @onResetWallet="() => selectWallet(null)"
+          @onProceedClick="
+            () => {
+              connectWallet()
+              wizardStore.nextStep()
+            }
+          "
+        />
+        <CartStep
+          v-else-if="wizardStore.currentStep === 2"
+          @onClose="emit('setIsOpen', false)"
+          @onProceedClick="wizardStore.nextStep"
+        />
+        <FormStep
+          v-else-if="wizardStore.currentStep === 3"
+          @onSaveClick="wizardStore.nextStep"
+          @onBackClick="wizardStore.prevStep"
+        />
+        <SummaryStep
+          v-else-if="wizardStore.currentStep === 4"
+          @onBackClick="wizardStore.prevStep"
+          @onProceedClick="wizardStore.nextStep"
+        />
+        <PaymentStep v-else-if="wizardStore.currentStep === 5" />
+      </div>
     </DialogPanel>
   </Dialog>
 </template>

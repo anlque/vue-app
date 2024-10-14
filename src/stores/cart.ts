@@ -1,19 +1,50 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
+export const PRODUCT_NAME = 'Cyclone'
+
 export interface CartItem {
   name: string
   id: string
   price: number
   quantity: number
   isFull: boolean
+  staking: { min: number; max: number }
 }
 
 const initialState: CartItem[] = [
-  { name: 'Cyclone Qs', id: '1', price: 1352, quantity: 0, isFull: true },
-  { name: 'Cyclone Qs Pro', id: '2', price: 1629, quantity: 0, isFull: true },
-  { name: 'Cyclone Qs', id: '3', price: 549, quantity: 0, isFull: false },
-  { name: 'Cyclone Qs Pro', id: '4', price: 649, quantity: 0, isFull: false },
+  {
+    name: 'Qs',
+    id: '1',
+    price: 1352,
+    quantity: 1,
+    isFull: true,
+    staking: { min: 3969.67, max: 33080.62 },
+  },
+  {
+    name: 'Qs Pro',
+    id: '2',
+    price: 1629,
+    quantity: 0,
+    isFull: true,
+    staking: { min: 3969.67, max: 76747.03 },
+  },
+  {
+    name: 'Qs',
+    id: '3',
+    price: 549,
+    quantity: 0,
+    isFull: false,
+    staking: { min: 3969.67, max: 33080.62 },
+  },
+  {
+    name: 'Qs Pro',
+    id: '4',
+    price: 649,
+    quantity: 0,
+    isFull: false,
+    staking: { min: 3969.67, max: 76747.03 },
+  },
 ]
 
 export const useCartStore = defineStore('cart', () => {
@@ -46,6 +77,26 @@ export const useCartStore = defineStore('cart', () => {
     items.value.reduce((sum, item) => sum + item.price * item.quantity, 0),
   )
 
+  const minStakeTotal = computed(
+    () =>
+      Math.round(
+        items.value.reduce(
+          (sum, item) => sum + item.staking.min * item.quantity,
+          0,
+        ) * 100,
+      ) / 100,
+  )
+
+  const maxStakeTotal = computed(
+    () =>
+      Math.round(
+        items.value.reduce(
+          (sum, item) => sum + item.staking.max * item.quantity,
+          0,
+        ) * 100,
+      ) / 100,
+  )
+
   const fullItems = computed(() => items.value.filter(item => item.isFull))
   const nonFullItems = computed(() => items.value.filter(item => !item.isFull))
   const addedItems = computed(() =>
@@ -58,6 +109,8 @@ export const useCartStore = defineStore('cart', () => {
     fullItems,
     nonFullItems,
     addedItems,
+    minStakeTotal,
+    maxStakeTotal,
     addItem,
     removeItem,
     resetCart,

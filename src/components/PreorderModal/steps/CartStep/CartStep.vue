@@ -2,7 +2,7 @@
 import CustomButton from '@/components/UI/CustomButton.vue'
 import { defineEmits, ref, computed } from 'vue'
 import IconCube from '@/components/icons/IconCube.vue'
-import { useCartStore } from '@/stores/cart'
+import { PRODUCT_NAME, useCartStore } from '@/stores/cart'
 import CartItem from './CartItem.vue'
 import IconCart from '@/components/icons/IconCart.vue'
 import { storeToRefs } from 'pinia'
@@ -21,12 +21,8 @@ function toggleExpanded() {
   isExpanded.value = !isExpanded.value
 }
 const conversionFee = 10
-const { adaToUsd, adaFeeInUsd, totalInAda } = useFetchAdaToUsd(
-  conversionFee,
-  total,
-)
+const { adaFeeInUsd, totalInAda } = useFetchAdaToUsd(conversionFee, total)
 
-console.log('ADA ADA ADA', adaToUsd)
 //
 // onMounted(() => {
 //   fetchAdaToUsd()
@@ -111,8 +107,8 @@ const formattedTotal = computed(() => {
             >
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >{{ item.quantity }}x {{ item.name }}
-                {{ !item.isFull && '(No Drives)' }}</span
+                >{{ item.quantity }}x {{ PRODUCT_NAME }} {{ item.name }}
+                {{ !item.isFull ? '(No Drives)' : '' }}</span
               >
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
