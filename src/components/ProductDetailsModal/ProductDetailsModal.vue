@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { defineEmits, defineProps } from 'vue'
-import { Dialog, DialogPanel } from '@headlessui/vue'
-import { MODEL_TYPE } from '@/constants'
-import { IconCross, IconLogo } from '@/components/icons'
-import CustomButton from '@/components/UI/CustomButton.vue'
-import ProductCard from './ProductCard.vue'
+import { defineEmits, defineProps } from 'vue';
+import { Dialog, DialogPanel } from '@headlessui/vue';
+import { MODEL_TYPE } from '@/constants';
+import { IconCross, IconLogo } from '@/components/icons';
+import CustomButton from '@/components/UI/CustomButton.vue';
+import ProductCard from './ProductCard.vue';
+import type { ProductDetail } from './types';
 
-const productDetails = [
+const productDetails: ProductDetail[] = [
   {
     name: MODEL_TYPE.QS,
     description:
@@ -241,18 +242,18 @@ const productDetails = [
       marketConversion: { value: 3841.44, isHighlighted: false },
     },
   },
-]
+];
 
 // interfaces
 interface Props {
-  isOpen: boolean
+  isOpen: boolean;
 }
 
 // props
-const { isOpen } = defineProps<Props>()
+const { isOpen } = defineProps<Props>();
 
 // passed handlers
-const emit = defineEmits(['setIsOpen', 'preorderClick'])
+const emit = defineEmits(['setIsOpen', 'preorderClick']);
 </script>
 
 <template>

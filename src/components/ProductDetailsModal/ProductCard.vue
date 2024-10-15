@@ -3,11 +3,12 @@ import { defineProps } from 'vue';
 import { CRYPTO_CURRENCIES, DEFAULT_CURRENCY, PRODUCT_NAME } from '@/constants';
 import { formatPrice } from '@/utils/formatters';
 import { IconLogo } from '@/components/icons';
+import type { ProductDetail } from './types';
 import SpecificationCaption from './SpecificationCaption.vue';
 
 // interfaces
 interface Props {
-  product: object;
+  product: ProductDetail;
 }
 
 // props

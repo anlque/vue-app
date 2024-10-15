@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
-import type { ProductSpec } from './HomeView.vue'
+import { defineProps } from 'vue';
+import type { ProductSpec } from './types';
 
 interface Props {
-  product: ProductSpec
+  product: ProductSpec;
 }
 
-const { product } = defineProps<Props>()
+const { product } = defineProps<Props>();
 </script>
 
 <template>

@@ -74,7 +74,7 @@ const onSignTransaction = () => {
         <PaymentMethodCard
           v-for="paymentMethod in paymentMethods"
           :key="paymentMethod"
-          :amount="amountsInCrypto[paymentMethod]"
+          :amount="amountsInCrypto[paymentMethod] || 0"
           :image="images[paymentMethod]"
           :label="paymentMethod"
           :isSelected="wallet.paymentMethod === paymentMethod"

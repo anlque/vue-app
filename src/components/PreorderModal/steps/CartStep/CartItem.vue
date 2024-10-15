@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineEmits, defineProps } from 'vue';
-import { CartItem } from '@/stores/cart';
+import type { CartItem } from '@/stores/cart';
 import { formatPrice } from '@/utils/formatters';
 import { DEFAULT_CURRENCY, PRODUCT_NAME } from '@/constants';
 import { IconMinus, IconPlus } from '@/components/icons';

@@ -26,6 +26,10 @@ interface Wallet {
   link: string;
 }
 
+interface Cardano {
+  [key: string]: any;
+}
+
 // passed handlers
 const emit = defineEmits(['onClose', 'onProceedClick']);
 
@@ -33,7 +37,7 @@ const emit = defineEmits(['onClose', 'onProceedClick']);
 const { walletStore } = useMainStore();
 
 // local state
-const wallets: Wallet[] = ref([
+const wallets = ref<Wallet[]>([
   {
     name: WALLET_NAME.BEGIN,
     icon: IconBeginWallet,
@@ -90,7 +94,7 @@ const wallets: Wallet[] = ref([
     link: 'https://vespr.xyz/',
   },
 ]);
-const selectedWallet = ref(null);
+const selectedWallet = ref<Wallet['name'] | null>(null);
 
 // hooks
 const { isLoading, performRequest } = useMockRequest();
@@ -117,24 +121,27 @@ const onConnectWallet = (onThen: () => void) => {
     type: REQUEST_STATUS.SUCCESS,
     message: 'Wallet connected',
     onResolve: ({ message, status }) => {
-      walletStore.connectWallet(selectedWallet.value);
-      notify({ type: status, title: message });
-      onThen();
+      if (selectedWallet.value) {
+        walletStore.connectWallet(selectedWallet.value);
+        notify({ type: status, title: message });
+        onThen();
+      }
     },
   });
 };
 
 const isWalletAvailable = (walletName: string): boolean => {
-  return !!window.cardano?.[walletName.toLowerCase()];
+  const cardano = (window as any).cardano as Cardano | undefined;
+  return !!cardano?.[walletName.toLowerCase()];
 };
 
 const formattedWallets = computed(() => {
   return wallets.value
-    .map((wallet) => ({
+    .map((wallet: Wallet) => ({
       ...wallet,
       isAvailable: isWalletAvailable(wallet.name),
     }))
-    .sort((a, b) => {
+    .sort((a: Wallet, b: Wallet) => {
       return a.isAvailable === b.isAvailable ? 0 : a.isAvailable ? -1 : 1;
     });
 });
@@ -176,7 +183,7 @@ const handleProceedClick = async () => {
         >
           <button
             @click="() => onSelectWallet(wallet)"
-            :disabled="selectedWallet"
+            :disabled="Boolean(selectedWallet)"
             :class="[
               'bg-grayscale-milk-white rounded-lg p-[10px] size-[55px] flex items-center justify-center transition-all',
               wallet.isAvailable && !selectedWallet

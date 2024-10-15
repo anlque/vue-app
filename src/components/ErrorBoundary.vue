@@ -29,7 +29,11 @@ export default defineComponent({
   },
   errorCaptured(err, instance, info) {
     this.hasError = true;
-    this.errorMessage = `${err.message} \n ${info}`;
+    if (err instanceof Error) {
+      this.errorMessage = `${err.message} \n ${info}`;
+    } else {
+      this.errorMessage = `Unknown error \n ${info}`;
+    }
     return false;
   },
 });

@@ -3,7 +3,7 @@ import { formatPrice } from '@/utils/formatters';
 
 // interfaces
 interface Props {
-  amount: string;
+  amount: number;
   image: string;
   label: string;
   isSelected: boolean;

@@ -1,29 +1,35 @@
 <script setup lang="ts">
-import { IconLogo } from '@/components/icons'
-import { defineProps } from 'vue'
-import type { CartItem } from '@/stores/cart'
+import { defineProps } from 'vue';
+import type { CartItem, ModelType } from '@/stores/cart';
+import { MODEL_TYPE } from '@/constants';
+import { IconLogo } from '@/components/icons';
 
-const commitment = {
+interface Commitment {
+  min: Record<ModelType, number>;
+  max: Record<ModelType, number>;
+}
+
+const commitment: Commitment = {
   min: {
-    'Cyclone Qs': 900,
-    'Cyclone Qs Pro': 900,
+    [MODEL_TYPE.QS]: 900,
+    [MODEL_TYPE.QS_PRO]: 900,
   },
   max: {
-    'Cyclone Qs': 7.5,
-    'Cyclone Qs Pro': 17.4,
+    [MODEL_TYPE.QS]: 7.5,
+    [MODEL_TYPE.QS_PRO]: 17.4,
   },
-}
+};
 
 // interfaces
 interface Props {
-  items: CartItem
-  constraint: 'min' | 'max'
-  total: string
-  isExpanded: boolean
+  items: CartItem[];
+  constraint: 'min' | 'max';
+  total: string;
+  isExpanded: boolean;
 }
 
 // props
-const { items, constraint, total, isExpanded } = defineProps<Props>()
+const { items, constraint, total, isExpanded } = defineProps<Props>();
 </script>
 
 <template>

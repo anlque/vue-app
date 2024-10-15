@@ -5,7 +5,7 @@ export type Currency = 'ADA' | 'USDM';
 
 interface WalletState {
   name: string;
-  paymentMethod: Currency;
+  paymentMethod: Currency | null;
 }
 
 export const useWalletStore = defineStore('wallet', () => {

@@ -5,6 +5,7 @@ import {
   CRYPTO_CURRENCIES,
   DEFAULT_CURRENCY,
 } from '@/constants';
+import type { Currency } from '@/stores/wallet';
 
 const coinIds: { [key: string]: string } = {
   [CRYPTO_CURRENCIES.ADA]: 'cardano',
@@ -21,7 +22,7 @@ interface ConversionResult {
 // ---methods---
 
 // Map currencies to ids
-const getCoinIds = (currencies: Ref<string[]>): string[] => {
+const getCoinIds = (currencies: string[]): string[] => {
   return currencies.map((currency) => {
     const coinId = coinIds[currency.toUpperCase()];
     if (!coinId) {
@@ -46,16 +47,17 @@ const fetchRatesFromAPI = async (coinIdsList: string[]): Promise<any> => {
 const convertUSDtoCrypto = (
   totalUSD: number | null,
   exchangeRates: { [currency: string]: number },
-  currencies: Ref<string[]>,
+  currencies: string[],
 ): { [currency: string]: number | null } => {
   const amountsInCrypto: { [currency: string]: number | null } = {};
 
   if (Boolean(totalUSD)) {
     currencies.forEach((currency) => {
       const rate = exchangeRates[currency.toUpperCase()];
-      amountsInCrypto[currency] = Boolean(rate)
-        ? parseFloat((totalUSD / rate).toFixed(2))
-        : null;
+      amountsInCrypto[currency] =
+        Boolean(rate) && totalUSD !== null
+          ? parseFloat((totalUSD / rate).toFixed(2))
+          : null;
     });
   }
 
@@ -71,9 +73,10 @@ const convertCryptoToUSD = (
 
   for (const [currency, amount] of Object.entries(cryptoAmounts)) {
     const rate = exchangeRates[currency.toUpperCase()];
-    amountsInUSD[currency] = rate
-      ? parseFloat((amount * rate).toFixed(2))
-      : null;
+    amountsInUSD[currency] =
+      Boolean(rate) && amount !== null
+        ? parseFloat((amount * rate).toFixed(2))
+        : null;
   }
 
   return amountsInUSD;
@@ -81,15 +84,18 @@ const convertCryptoToUSD = (
 
 // ---hook---
 export function useCurrencyConversion(
-  currencies: Ref<string[]>,
-  totalUSD: Ref<number | null>,
-  cryptoAmounts: Ref<{ [currency: string]: number | null }>,
+  currencies: Currency[],
+  totalUSD: number | null,
+  cryptoAmounts: { [key in Currency]?: number | null },
 ): ConversionResult {
-  const amountsInCrypto = ref<{ [currency: string]: number | null }>({});
-  const amountsInUSD = ref<{ [currency: string]: number | null }>({});
+  const amountsInCrypto = ref<{ [key in Currency]?: number | null }>({});
+  const amountsInUSD = ref<{ [key in Currency]?: number | null }>({});
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
-  const exchangeRates = ref<{ [currency: string]: number }>({});
+  const exchangeRates = ref<{ [key in Currency]?: number }>({
+    [CRYPTO_CURRENCIES.ADA]: 0,
+    [CRYPTO_CURRENCIES.USDM]: 0,
+  });
 
   const fetchExchangeRates = async () => {
     loading.value = true;
@@ -105,7 +111,7 @@ export function useCurrencyConversion(
 
         currencies.forEach((currency) => {
           const coinId = coinIds[currency.toUpperCase()];
-          exchangeRates.value[currency.toUpperCase()] =
+          exchangeRates.value[currency.toUpperCase() as Currency] =
             data[coinId]?.usd || null;
         });
       }

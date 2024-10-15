@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 
-interface FormState {
+export interface FormState {
   fullName: string;
   phone: string;
   email: string;
@@ -12,7 +12,7 @@ interface FormState {
   state: string;
   country: string;
 }
-const regexPatterns = {
+const regexPatterns: { [key in keyof FormState]: RegExp } = {
   fullName: /^[\p{L}\s]+$/u,
   phone: /^\+?\d{10,15}$/,
   email: /[^@\s]+@[^@\s]+\.[^@\s]+/,
@@ -39,11 +39,14 @@ export const useFormStore = defineStore('form', () => {
     country: '',
   });
 
-  const errors = ref({
+  const errors = ref<{ [key in keyof FormState]: boolean }>({
+    // contact info
     fullName: false,
-    email: false,
     phone: false,
+    email: false,
+    // address
     street: false,
+    apartment: false,
     city: false,
     postalCode: false,
     state: false,
@@ -63,8 +66,8 @@ export const useFormStore = defineStore('form', () => {
 
     Object.entries(fields).forEach(([key, value]) => {
       const trimmedValue = value.trim();
-      if (!regexPatterns[key].test(trimmedValue)) {
-        errors.value[key] = true;
+      if (!regexPatterns[key as keyof FormState].test(trimmedValue)) {
+        errors.value[key as keyof FormState] = true;
       }
     });
   }

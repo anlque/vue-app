@@ -1,28 +1,29 @@
 <script setup lang="ts">
-import { defineEmits } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useMainStore } from '@/stores/mainStore'
-import { FORM_FIELD_NAME } from '@/constants'
-import CustomButton from '@/components/UI/CustomButton.vue'
-import FormInput from './FormInput.vue'
+import { defineEmits } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useMainStore } from '@/stores/mainStore';
+import type { FormState } from '@/stores/form';
+import { FORM_FIELD_NAME } from '@/constants';
+import CustomButton from '@/components/UI/CustomButton.vue';
+import FormInput from './FormInput.vue';
 
 // store
-const { formStore } = useMainStore()
-const { form, errors } = storeToRefs(formStore)
-const { updateField, validateForm } = formStore
+const { formStore } = useMainStore();
+const { form, errors } = storeToRefs(formStore);
+const { updateField, validateForm } = formStore;
 
 // passed handlers
-const emit = defineEmits(['onSaveClick', 'onBackClick'])
+const emit = defineEmits(['onSaveClick', 'onBackClick']);
 
 // local handlers
-function updateFormField(fieldName: string, fieldValue: string) {
-  updateField(fieldName, fieldValue)
+function updateFormField(fieldName: keyof FormState, fieldValue: string) {
+  updateField(fieldName, fieldValue);
 }
 
 function validateAndSave() {
-  validateForm()
-  if (!Object.values(formStore.errors).some(err => err)) {
-    emit('onSaveClick')
+  validateForm();
+  if (!Object.values(formStore.errors).some((err) => err)) {
+    emit('onSaveClick');
   }
 }
 </script>
@@ -41,8 +42,8 @@ function validateAndSave() {
           :id="'fullName'"
           :error="errors.fullName"
           @onChange="
-            value => {
-              updateFormField(FORM_FIELD_NAME.FULL_NAME, value)
+            (value) => {
+              updateFormField(FORM_FIELD_NAME.FULL_NAME, value);
             }
           "
         />
@@ -55,8 +56,8 @@ function validateAndSave() {
             :error="errors.phone"
             :popoverText="'Please input the correct phone number for example +111-111-111-(1111) or +1111111111111 or 001111111111111 to receive your delivery. ⁠'"
             @onChange="
-              value => {
-                updateFormField(FORM_FIELD_NAME.PHONE, value)
+              (value) => {
+                updateFormField(FORM_FIELD_NAME.PHONE, value);
               }
             "
           />
@@ -67,8 +68,8 @@ function validateAndSave() {
             :error="errors.email"
             :popoverText="'Please input correct email address to ensure you receive order emails and to track your delivery.'"
             @onChange="
-              value => {
-                updateFormField(FORM_FIELD_NAME.EMAIL, value)
+              (value) => {
+                updateFormField(FORM_FIELD_NAME.EMAIL, value);
               }
             "
           />
@@ -79,8 +80,8 @@ function validateAndSave() {
           :id="'streetAddress'"
           :error="errors.street"
           @onChange="
-            value => {
-              updateFormField(FORM_FIELD_NAME.STREET, value)
+            (value) => {
+              updateFormField(FORM_FIELD_NAME.STREET, value);
             }
           "
         />
@@ -90,8 +91,8 @@ function validateAndSave() {
           :id="'apartment'"
           :error="errors.apartment"
           @onChange="
-            value => {
-              updateFormField(FORM_FIELD_NAME.APARTMENT, value)
+            (value) => {
+              updateFormField(FORM_FIELD_NAME.APARTMENT, value);
             }
           "
         />
@@ -102,8 +103,8 @@ function validateAndSave() {
             :id="'city'"
             :error="errors.city"
             @onChange="
-              value => {
-                updateFormField(FORM_FIELD_NAME.CITY, value)
+              (value) => {
+                updateFormField(FORM_FIELD_NAME.CITY, value);
               }
             "
           />
@@ -113,8 +114,8 @@ function validateAndSave() {
             :id="'postalCode'"
             :error="errors.postalCode"
             @onChange="
-              value => {
-                updateFormField(FORM_FIELD_NAME.POSTAL_CODE, value)
+              (value) => {
+                updateFormField(FORM_FIELD_NAME.POSTAL_CODE, value);
               }
             "
           />
@@ -126,8 +127,8 @@ function validateAndSave() {
             :id="'state'"
             :error="errors.state"
             @onChange="
-              value => {
-                updateFormField(FORM_FIELD_NAME.STATE, value)
+              (value) => {
+                updateFormField(FORM_FIELD_NAME.STATE, value);
               }
             "
           />
@@ -137,8 +138,8 @@ function validateAndSave() {
             :id="'country'"
             :error="errors.country"
             @onChange="
-              value => {
-                updateFormField(FORM_FIELD_NAME.COUNTRY, value)
+              (value) => {
+                updateFormField(FORM_FIELD_NAME.COUNTRY, value);
               }
             "
           />

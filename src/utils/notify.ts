@@ -1,5 +1,5 @@
-import { Notyf } from 'notyf'
-import 'notyf/notyf.min.css'
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 const notyf = new Notyf({
   types: [
@@ -20,12 +20,13 @@ const notyf = new Notyf({
       },
     },
   ],
-})
+});
 
 interface NotifyParams {
-  type?: 'success' | 'error'
-  title: string
-  subtitle?: string
+  title: string;
+  type?: 'success' | 'error';
+  subtitle?: string;
+  duration?: number;
 }
 
 export function notify({
@@ -34,10 +35,10 @@ export function notify({
   subtitle = '',
   duration = 2000,
 }: NotifyParams) {
-  const message = `<div class="notification-header">${title}</div><div class="notification-content">${subtitle}</div>`
+  const message = `<div class="notification-header">${title}</div><div class="notification-content">${subtitle}</div>`;
   notyf.open({
     type,
     message,
     duration,
-  })
+  });
 }

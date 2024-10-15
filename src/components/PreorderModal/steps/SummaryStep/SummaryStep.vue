@@ -38,22 +38,22 @@ const { amountsInUSD } = useCurrencyConversion(
 );
 
 // passed handlers
-const emit = defineEmits(['onSaveClick', 'onProceedClick']);
+const emit = defineEmits(['onBackClick', 'onProceedClick']);
 
 // local handlers
-function toggleExpandedStaking() {
+const toggleExpandedStaking = () => {
   isExpandedStaking.value = !isExpandedStaking.value;
-}
-function toggleExpandedPrice() {
+};
+const toggleExpandedPrice = () => {
   isExpandedPrice.value = !isExpandedPrice.value;
-}
-function handleCheckboxChange(event: Event) {
+};
+const handleCheckboxChange = (event: Event) => {
   isSubmitAttempted.value = true;
   const input = event.target as HTMLInputElement;
   isAgreed.value = input.checked;
-}
+};
 
-function proceedToCheckout() {
+const proceedToCheckout = () => {
   isSubmitAttempted.value = true;
   if (!isAgreed.value) {
     notify({
@@ -63,7 +63,7 @@ function proceedToCheckout() {
   } else {
     emit('onProceedClick');
   }
-}
+};
 </script>
 
 <template>
@@ -214,7 +214,7 @@ function proceedToCheckout() {
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
                 >{{ DEFAULT_CURRENCY.toUpperCase() }}
                 {{
-                  formatPrice(amountsInUSD[CRYPTO_CURRENCIES.ADA] || '')
+                  formatPrice(amountsInUSD[CRYPTO_CURRENCIES.ADA] || 0)
                 }}</span
               >
             </div>

@@ -8,6 +8,7 @@ import CustomButton from '@/components/UI/CustomButton.vue';
 import { IconLogo, IconIagon } from '@/components/icons';
 import ProductButton from './ProductButton.vue';
 import ProductInfo from './ProductInfo.vue';
+import type { ProductSpec } from './types';
 
 const cycloneModels: Record<ModelType, ProductSpec> = {
   [MODEL_TYPE.QS]: {
@@ -53,28 +54,6 @@ const cycloneModels: Record<ModelType, ProductSpec> = {
 };
 
 const modelTypes: ModelType[] = [MODEL_TYPE.QS, MODEL_TYPE.QS_PRO];
-
-// interfaces
-export interface ProductSpec {
-  specs: {
-    cpuCores: {
-      value: number;
-      label: string;
-    };
-    ramMemory: {
-      value: number;
-      label: string;
-    };
-    ethernet: {
-      value: number;
-      label: string;
-    };
-    storage: {
-      value: number;
-      label: string;
-    };
-  };
-}
 
 const isDetailsOpen = ref<boolean>(false);
 const isPreorderOpen = ref<boolean>(false);
@@ -217,3 +196,49 @@ function setActiveProduct(product: ModelType) {
     </div>
   </main>
 </template>
+
+<!-- TODO: tests
+HomeView
+1) h1, Product Details button, Preorder Now button и секция под кнопками присутствуют на странице
+2) клик по Product Details button вызывает попап
+3) клик по Preorder Now button вызывает попап
+
+Product Details popup
+1) есть карточки
+2) есть кнопка Preorder Now и кнопка закрытия
+3) клик кнопка закрыть закрывает попап
+4) клик кнопка Preorder Now открывает попап Preorder Now
+
+Preorder Now попап
+1) есть заголовок h1
+2) есть секция с кошельками
+3) клик по кнопке закрыть закрывает
+4) клик по кошельку(одному по всем не нужно) открывает секцию change wallet и proceed
+5) клик по change wallet скрывает секцию с кнопками
+6) клик по proceed чекает что отображается второй степ
+
+второй шаг формы
+1) проверка что если не добавлены устройства то кнопка next disabled
+2) проверка тотал суммы, то что элемент присутствует
+3) проверка что отображены все устройства
+4) добавляем устройство, проверяем что тотал сумма изменилась
+5) уменьшаем на одно устройство, проверяем что сумма изменилась
+6) клик по expend price проверяем что доп секция отображается
+7) клик по close
+8) клик по next и проверка что отображается 3 шаг
+
+форма
+1) проверка всех полей, то что присутсвуют на странице
+2) проверка validate, если чего-то нет (достаточно одного двух полей) то кнопка next disable
+3) заполняем все поля нормально и проверяем что кнопка next enabled
+4) проверка что кнопка back возвращает на пред шаг
+5) клик по next и что отображается след шаг
+
+последний шаг
+1) проверяем что Products есть в попапе и его значение
+2) проверяем Ship To
+3) Staking Requirement*
+4) Products Total Price проверяем что есть на странице и значение
+5) проверяем что без чекбокса кнопка submit disabled
+6) проверяем что. счекбоксом кнопка submit enabled
+-->
