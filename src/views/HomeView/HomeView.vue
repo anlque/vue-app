@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { PRODUCT_NAME } from '@/constants/ui'
-import ProductDetailsModal from '@/components/ProductDetailsModal'
-import PreorderModal from '@/components/PreorderModal'
-import CustomButton from '@/components/UI/CustomButton.vue'
-import { IconLogo, IconIagon } from '@/components/icons'
-import ProductButton from './ProductButton.vue'
-import ProductInfo from './ProductInfo.vue'
+import { ref } from 'vue';
+import type { ModelType } from '@/stores/cart';
+import { PRODUCT_NAME, MODEL_TYPE } from '@/constants';
+import ProductDetailsModal from '@/components/ProductDetailsModal';
+import PreorderModal from '@/components/PreorderModal';
+import CustomButton from '@/components/UI/CustomButton.vue';
+import { IconLogo, IconIagon } from '@/components/icons';
+import ProductButton from './ProductButton.vue';
+import ProductInfo from './ProductInfo.vue';
 
-const cycloneModels = {
-  Qs: {
+const cycloneModels: Record<ModelType, ProductSpec> = {
+  [MODEL_TYPE.QS]: {
     specs: {
       cpuCores: {
         value: 4,
@@ -29,7 +30,7 @@ const cycloneModels = {
       },
     },
   },
-  'Qs Pro': {
+  [MODEL_TYPE.QS_PRO]: {
     specs: {
       cpuCores: {
         value: 4,
@@ -49,25 +50,47 @@ const cycloneModels = {
       },
     },
   },
+};
+
+const modelTypes: ModelType[] = [MODEL_TYPE.QS, MODEL_TYPE.QS_PRO];
+
+// interfaces
+export interface ProductSpec {
+  specs: {
+    cpuCores: {
+      value: number;
+      label: string;
+    };
+    ramMemory: {
+      value: number;
+      label: string;
+    };
+    ethernet: {
+      value: number;
+      label: string;
+    };
+    storage: {
+      value: number;
+      label: string;
+    };
+  };
 }
 
-const isDetailsOpen = ref<boolean>(false)
-const isPreorderOpen = ref<boolean>(false)
-const activeProduct = ref<'Qs' | 'Qs Pro'>('Qs Pro')
+const isDetailsOpen = ref<boolean>(false);
+const isPreorderOpen = ref<boolean>(false);
+const activeProduct = ref<ModelType>(MODEL_TYPE.QS_PRO);
 
-function setIsDetailsOpen(value) {
-  isDetailsOpen.value = value
+const setIsDetailsOpen = (value: boolean) => {
+  isDetailsOpen.value = value;
+};
+
+const setIsPreorderOpen = (value: boolean) => {
+  isPreorderOpen.value = value;
+};
+
+function setActiveProduct(product: ModelType) {
+  activeProduct.value = product;
 }
-
-function setIsPreorderOpen(value) {
-  isPreorderOpen.value = value
-}
-
-function setActiveProduct(product: 'Qs' | 'Qs Pro') {
-  activeProduct.value = product
-}
-
-console.log('TEST ', isPreorderOpen)
 </script>
 
 <template>
@@ -93,7 +116,7 @@ console.log('TEST ', isPreorderOpen)
           class="max-w-[180px] md:max-w-[350px] desktop:max-w-[428px] md:w-auto"
         >
           <img
-            src="../../assets/images/cyclone-server.webp"
+            src="../../../public/images/cyclone-server.webp"
             alt="Cyclone server"
             class="w-full h-full md:max-w-[350px] 2xl:max-w-[428px]"
           />
@@ -159,14 +182,11 @@ console.log('TEST ', isPreorderOpen)
             >
               <div class="flex gap-[11px]">
                 <ProductButton
-                  title="Qs Pro"
-                  :isActive="activeProduct === 'Qs Pro'"
-                  @click="setActiveProduct('Qs Pro')"
-                />
-                <ProductButton
-                  title="Qs"
-                  :isActive="activeProduct === 'Qs'"
-                  @click="setActiveProduct('Qs')"
+                  v-for="modelType in modelTypes"
+                  :key="modelType"
+                  :title="modelType"
+                  :isActive="activeProduct === modelType"
+                  @click="setActiveProduct(modelType)"
                 />
               </div>
               <p
@@ -184,7 +204,7 @@ console.log('TEST ', isPreorderOpen)
           @setIsOpen="setIsDetailsOpen"
           @preorderClick="
             () => {
-              setIsPreorderOpen(true)
+              setIsPreorderOpen(true);
             }
           "
         />

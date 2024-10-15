@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
-import { PRODUCT_NAME } from '@/constants/ui'
+import { PRODUCT_NAME } from '@/constants'
 
 // interfaces
 interface Props {

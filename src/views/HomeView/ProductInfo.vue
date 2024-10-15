@@ -1,27 +1,9 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
+import type { ProductSpec } from './HomeView.vue'
 
 interface Props {
-  product: {
-    specs: {
-      cpuCores: {
-        value: number
-        label: string
-      }
-      ramMemory: {
-        value: number
-        label: string
-      }
-      ethernet: {
-        value: number
-        label: string
-      }
-      storage: {
-        value: number
-        label: string
-      }
-    }
-  }
+  product: ProductSpec
 }
 
 const { product } = defineProps<Props>()

@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { defineEmits, defineProps } from 'vue'
-import { CartItem } from '@/stores/cart'
-import { formatPrice } from '@/utils/formatPrice'
-import { PRODUCT_NAME } from '@/constants/ui'
-import { IconMinus, IconPlus } from '@/components/icons'
+import { defineEmits, defineProps } from 'vue';
+import { CartItem } from '@/stores/cart';
+import { formatPrice } from '@/utils/formatters';
+import { DEFAULT_CURRENCY, PRODUCT_NAME } from '@/constants';
+import { IconMinus, IconPlus } from '@/components/icons';
 
 // interfaces
 interface Props {
-  item: CartItem
+  item: CartItem;
 }
 
 // props
-const { item } = defineProps<Props>()
+const { item } = defineProps<Props>();
 
 // passed handlers
-const emit = defineEmits(['onIncrease', 'onDecrease'])
+const emit = defineEmits(['onIncrease', 'onDecrease']);
 </script>
 
 <template>
@@ -27,7 +27,7 @@ const emit = defineEmits(['onIncrease', 'onDecrease'])
       {{ PRODUCT_NAME }}
       <span class="text-purple-cold font-poppins">{{ item.name }}</span>
       <span
-        v-if="!item.isFull"
+        v-if="!item.isCustomVersion"
         class="md:text-sm md:leading-[22px] md:font-normal font-poppins"
         >No Drives</span
       >
@@ -36,7 +36,7 @@ const emit = defineEmits(['onIncrease', 'onDecrease'])
       <p
         class="hidden md:block text-base font-poppins text-purple-cold font-normal"
       >
-        USD
+        {{ DEFAULT_CURRENCY.toUpperCase() }}
         <span class="text-grayscaleLicorice font-poppins">{{
           formatPrice(item.price)
         }}</span>

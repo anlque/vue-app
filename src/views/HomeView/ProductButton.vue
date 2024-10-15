@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps } from 'vue';
 
 interface Props {
-  title: string
-  isActive: boolean
+  title: string;
+  isActive: boolean;
 }
 
-const { title } = defineProps<Props>()
+const { title } = defineProps<Props>();
 </script>
 
 <template>

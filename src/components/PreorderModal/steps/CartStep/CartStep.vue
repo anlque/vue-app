@@ -1,41 +1,47 @@
 <script setup lang="ts">
-import { defineEmits, ref } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useMainStore } from '@/stores/mainStore'
-import { useCurrencyConversion } from '@/hooks/useCurrencyConversion'
-import { formatPrice } from '@/utils/formatPrice'
-import { PRODUCT_NAME } from '@/constants/ui'
-import CustomButton from '@/components/UI/CustomButton.vue'
-import { IconCube, IconCart } from '@/components/icons'
-import CartItem from './CartItem.vue'
-import { CRYPTO_AMOUNT } from '@/constants/ui'
+import { defineEmits, ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useMainStore } from '@/stores/mainStore';
+import { useCurrencyConversion } from '@/hooks/useCurrencyConversion';
+import { formatPrice } from '@/utils/formatters';
+import {
+  PRODUCT_NAME,
+  CRYPTO_AMOUNT,
+  CRYPTO_CURRENCIES,
+  DEFAULT_CURRENCY,
+} from '@/constants';
+import CustomButton from '@/components/UI/CustomButton.vue';
+import { IconCube, IconCart } from '@/components/icons';
+import CartItem from './CartItem.vue';
 
 // store
-const { cartStore } = useMainStore()
-const { addItem, removeItem } = cartStore
-const { fullItems, nonFullItems, total, addedItems } = storeToRefs(cartStore)
+const { cartStore } = useMainStore();
+const { addItem, removeItem } = cartStore;
+const { fullItems, nonFullItems, total, addedItems } = storeToRefs(cartStore);
 // local state
-const isExpanded = ref(false)
+const isExpanded = ref(false);
 
 // passed handlers
-const emit = defineEmits(['onClose', 'onProceedClick'])
+const emit = defineEmits(['onClose', 'onProceedClick']);
 
 // local handlers
 function toggleExpanded() {
-  isExpanded.value = !isExpanded.value
+  isExpanded.value = !isExpanded.value;
 }
 
 // hooks
-const { amountInCrypto, amountInUSD } = useCurrencyConversion(
-  'ADA',
+const { amountsInCrypto, amountsInUSD } = useCurrencyConversion(
+  [CRYPTO_CURRENCIES.ADA],
   total.value,
-  CRYPTO_AMOUNT,
-)
+  {
+    [CRYPTO_CURRENCIES.ADA]: CRYPTO_AMOUNT,
+  },
+);
 </script>
 
 <template>
   <div
-    class="w-full mt-[74px] md:mt-0 px-6 md:px-[30px] md:flex md:items-center md:justify-center flex-1"
+    class="w-full mt-[74px] md:mt-0 px-6 md:px-[30px] md:flex md:justify-center flex-1 py-0"
   >
     <div
       class="px-1 pb-14 lg:pb-[30px] md:px-[30px] flex flex-col flex-1 gap-10 md:gap-[50px] md:w-full md:max-w-[688px]"
@@ -105,21 +111,26 @@ const { amountInCrypto, amountInUSD } = useCurrencyConversion(
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
                 >{{ item.quantity }}x {{ PRODUCT_NAME }} {{ item.name }}
-                {{ !item.isFull ? '(No Drives)' : '' }}</span
+                {{ !item.isCustomVersion ? '(No Drives)' : '' }}</span
               >
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >USD {{ formatPrice(item.price * item.quantity) }}</span
+                >{{ DEFAULT_CURRENCY.toUpperCase() }}
+                {{ formatPrice(item.price * item.quantity) }}</span
               >
             </div>
             <div class="flex items-center justify-between">
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >{{ CRYPTO_AMOUNT }} ADA conversion fee</span
+                >{{ CRYPTO_AMOUNT }} {{ CRYPTO_CURRENCIES.ADA }} conversion
+                fee</span
               >
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >USD {{ formatPrice(amountInUSD) }}</span
+                >{{ DEFAULT_CURRENCY.toUpperCase() }}
+                {{
+                  formatPrice(amountsInUSD[CRYPTO_CURRENCIES.ADA] || 0)
+                }}</span
               >
             </div>
             <div class="flex items-center justify-between">
@@ -129,7 +140,7 @@ const { amountInCrypto, amountInUSD } = useCurrencyConversion(
               >
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >USD 0</span
+                >{{ DEFAULT_CURRENCY.toUpperCase() }} 0</span
               >
             </div>
           </div>
@@ -141,7 +152,7 @@ const { amountInCrypto, amountInUSD } = useCurrencyConversion(
             <p
               class="font-poppins text-[26px] leading-[22px] font-light text-grayscaleLicorice"
             >
-              USD {{ formatPrice(total) }}
+              {{ DEFAULT_CURRENCY.toUpperCase() }} {{ formatPrice(total) }}
             </p>
           </div>
         </div>
@@ -150,8 +161,8 @@ const { amountInCrypto, amountInUSD } = useCurrencyConversion(
         >
           <span
             class="text-xs font-normal text-grayscaleWaterloo italic ml-auto md:ml-0"
-            >Including {{ CRYPTO_AMOUNT }} ADA Conversion Fees and Free
-            shipping</span
+            >Including {{ CRYPTO_AMOUNT }}
+            {{ CRYPTO_CURRENCIES.ADA }} Conversion Fees and Free shipping</span
           >
           <p
             class="text-xs font-normal text-grayscaleWaterloo capitalize ml-auto"
@@ -160,7 +171,8 @@ const { amountInCrypto, amountInUSD } = useCurrencyConversion(
               >Current Market conversion =
             </span>
             <span class="italic text-grayscaleLicorice">
-              {{ formatPrice(amountInCrypto) }} ADA</span
+              {{ formatPrice(amountsInCrypto[CRYPTO_CURRENCIES.ADA] || 0) }}
+              ADA</span
             >
           </p>
         </div>

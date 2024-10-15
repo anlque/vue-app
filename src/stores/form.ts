@@ -1,16 +1,16 @@
-import { ref } from 'vue'
-import { defineStore } from 'pinia'
+import { ref } from 'vue';
+import { defineStore } from 'pinia';
 
 interface FormState {
-  fullName: string
-  phone: string
-  email: string
-  street: string
-  apartment: string
-  city: string
-  postalCode: string
-  state: string
-  country: string
+  fullName: string;
+  phone: string;
+  email: string;
+  street: string;
+  apartment: string;
+  city: string;
+  postalCode: string;
+  state: string;
+  country: string;
 }
 const regexPatterns = {
   fullName: /^[\p{L}\s]+$/u,
@@ -22,7 +22,7 @@ const regexPatterns = {
   postalCode: /^[0-9]{5}(?:-[0-9]{4})?$/,
   state: /^[\p{L}\s.,]+$/u,
   country: /^[\p{L}\s]+$/u,
-}
+};
 
 export const useFormStore = defineStore('form', () => {
   const form = ref<FormState>({
@@ -37,7 +37,7 @@ export const useFormStore = defineStore('form', () => {
     postalCode: '',
     state: '',
     country: '',
-  })
+  });
 
   const errors = ref({
     fullName: false,
@@ -48,25 +48,25 @@ export const useFormStore = defineStore('form', () => {
     postalCode: false,
     state: false,
     country: false,
-  })
+  });
 
   function updateField(field: keyof FormState, value: string) {
     if (errors.value[field] && regexPatterns[field].test(value)) {
-      errors.value[field] = false
+      errors.value[field] = false;
     } else if (value.length === 0) {
-      errors.value[field] = true
+      errors.value[field] = true;
     }
-    form.value[field] = value
+    form.value[field] = value;
   }
-
   function validateForm() {
-    const fields = form.value
+    const fields = form.value;
 
     Object.entries(fields).forEach(([key, value]) => {
-      if (!regexPatterns[key].test(value)) {
-        errors.value[key] = true
+      const trimmedValue = value.trim();
+      if (!regexPatterns[key].test(trimmedValue)) {
+        errors.value[key] = true;
       }
-    })
+    });
   }
 
   return {
@@ -74,5 +74,5 @@ export const useFormStore = defineStore('form', () => {
     errors,
     updateField,
     validateForm,
-  }
-})
+  };
+});

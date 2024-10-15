@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
-import { PRODUCT_NAME } from '@/constants/ui'
-import { formatPrice } from '@/utils/formatPrice'
-import SpecificationCaption from '@/components/ProductDetailsModal/SpecificationCaption.vue'
-import { IconLogo } from '@/components/icons'
+import { defineProps } from 'vue';
+import { CRYPTO_CURRENCIES, DEFAULT_CURRENCY, PRODUCT_NAME } from '@/constants';
+import { formatPrice } from '@/utils/formatters';
+import { IconLogo } from '@/components/icons';
+import SpecificationCaption from './SpecificationCaption.vue';
 
 // interfaces
 interface Props {
-  product: object
+  product: object;
 }
 
 // props
-const { product } = defineProps<Props>()
+const { product } = defineProps<Props>();
 </script>
 
 <template>
@@ -146,7 +146,8 @@ const { product } = defineProps<Props>()
                 : 'text-purple-cold',
             ]"
           >
-            {{ formatPrice(product.pricing.unitPrice.value) }} USD
+            {{ formatPrice(product.pricing.unitPrice.value) }}
+            {{ DEFAULT_CURRENCY.toUpperCase() }}
           </p>
         </div>
         <div class="flex items-center justify-between">
@@ -161,7 +162,8 @@ const { product } = defineProps<Props>()
                 : 'text-grayscaleLicorice',
             ]"
           >
-            {{ formatPrice(product.pricing.marketConversion.value) }} ADA
+            {{ formatPrice(product.pricing.marketConversion.value) }}
+            {{ CRYPTO_CURRENCIES.ADA }}
           </p>
         </div>
       </div>

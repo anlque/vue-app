@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import CustomButton from '@/components/UI/CustomButton.vue'
 import { defineEmits } from 'vue'
-import { useMainStore } from '@/stores/mainStore'
-import FormInput from '@/components/PreorderModal/steps/FormStep/FormInput.vue'
 import { storeToRefs } from 'pinia'
+import { useMainStore } from '@/stores/mainStore'
+import { FORM_FIELD_NAME } from '@/constants'
+import CustomButton from '@/components/UI/CustomButton.vue'
+import FormInput from './FormInput.vue'
 
 // store
 const { formStore } = useMainStore()
@@ -19,7 +20,6 @@ function updateFormField(fieldName: string, fieldValue: string) {
 }
 
 function validateAndSave() {
-  console.log('validateAndSave')
   validateForm()
   if (!Object.values(formStore.errors).some(err => err)) {
     emit('onSaveClick')
@@ -29,7 +29,7 @@ function validateAndSave() {
 
 <template>
   <div
-    class="w-full mt-[74px] md:mt-0 px-6 md:px-[30px] md:flex md:items-center md:justify-center flex-1"
+    class="w-full mt-[74px] md:mt-0 px-6 py-6 md:px-[30px] md:flex md:justify-center flex-1"
   >
     <div
       class="px-1 pb-14 lg:pb-[30px] md:px-[30px] flex flex-col flex-1 gap-10 md:gap-[50px] md:w-full md:max-w-[688px]"
@@ -42,7 +42,7 @@ function validateAndSave() {
           :error="errors.fullName"
           @onChange="
             value => {
-              updateFormField('fullName', value)
+              updateFormField(FORM_FIELD_NAME.FULL_NAME, value)
             }
           "
         />
@@ -56,7 +56,7 @@ function validateAndSave() {
             :popoverText="'Please input the correct phone number for example +111-111-111-(1111) or +1111111111111 or 001111111111111 to receive your delivery. ⁠'"
             @onChange="
               value => {
-                updateFormField('phone', value)
+                updateFormField(FORM_FIELD_NAME.PHONE, value)
               }
             "
           />
@@ -68,7 +68,7 @@ function validateAndSave() {
             :popoverText="'Please input correct email address to ensure you receive order emails and to track your delivery.'"
             @onChange="
               value => {
-                updateFormField('email', value)
+                updateFormField(FORM_FIELD_NAME.EMAIL, value)
               }
             "
           />
@@ -80,7 +80,7 @@ function validateAndSave() {
           :error="errors.street"
           @onChange="
             value => {
-              updateFormField('street', value)
+              updateFormField(FORM_FIELD_NAME.STREET, value)
             }
           "
         />
@@ -91,7 +91,7 @@ function validateAndSave() {
           :error="errors.apartment"
           @onChange="
             value => {
-              updateFormField('apartment', value)
+              updateFormField(FORM_FIELD_NAME.APARTMENT, value)
             }
           "
         />
@@ -103,7 +103,7 @@ function validateAndSave() {
             :error="errors.city"
             @onChange="
               value => {
-                updateFormField('city', value)
+                updateFormField(FORM_FIELD_NAME.CITY, value)
               }
             "
           />
@@ -114,7 +114,7 @@ function validateAndSave() {
             :error="errors.postalCode"
             @onChange="
               value => {
-                updateFormField('postalCode', value)
+                updateFormField(FORM_FIELD_NAME.POSTAL_CODE, value)
               }
             "
           />
@@ -127,7 +127,7 @@ function validateAndSave() {
             :error="errors.state"
             @onChange="
               value => {
-                updateFormField('state', value)
+                updateFormField(FORM_FIELD_NAME.STATE, value)
               }
             "
           />
@@ -138,7 +138,7 @@ function validateAndSave() {
             :error="errors.country"
             @onChange="
               value => {
-                updateFormField('country', value)
+                updateFormField(FORM_FIELD_NAME.COUNTRY, value)
               }
             "
           />

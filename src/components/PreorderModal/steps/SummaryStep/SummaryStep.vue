@@ -1,60 +1,74 @@
 <script setup lang="ts">
-import CustomButton from '@/components/UI/CustomButton.vue'
-import { defineEmits, ref } from 'vue'
-import { IconCube, IconShip, IconDownload, IconCart } from '@/components/icons'
-import { useCurrencyConversion } from '@/hooks/useCurrencyConversion'
-import { formatPrice } from '@/utils/formatPrice'
-import { PRODUCT_NAME, CRYPTO_AMOUNT } from '@/constants/ui'
-import { useMainStore } from '@/stores/mainStore'
-import { storeToRefs } from 'pinia'
-import SummaryItem from './SummaryItem.vue'
-import StakingItem from './StakingItem.vue'
+import { defineEmits, ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useMainStore } from '@/stores/mainStore';
+import { useCurrencyConversion } from '@/hooks/useCurrencyConversion';
+import { notify } from '@/utils/notify';
+import { formatPrice } from '@/utils/formatters';
+import {
+  PRODUCT_NAME,
+  CRYPTO_AMOUNT,
+  CRYPTO_CURRENCIES,
+  DEFAULT_CURRENCY,
+} from '@/constants';
+import { IconCube, IconShip, IconDownload, IconCart } from '@/components/icons';
+import CustomButton from '@/components/UI/CustomButton.vue';
+import SummaryItem from './SummaryItem.vue';
+import StakingItem from './StakingItem.vue';
 
 // store
-const { cartStore, formStore } = useMainStore()
+const { cartStore, formStore } = useMainStore();
 const { addedItems, minStakeTotal, maxStakeTotal, total } =
-  storeToRefs(cartStore)
-const { form } = storeToRefs(formStore)
+  storeToRefs(cartStore);
+const { form } = storeToRefs(formStore);
 
 // local state
-const isExpandedStaking = ref(false)
-const isExpandedPrice = ref(false)
-const isAgreed = ref(false)
-const valueOnFirstTry = ref(false)
+const isExpandedStaking = ref(false);
+const isExpandedPrice = ref(false);
+const isAgreed = ref(false);
+const isSubmitAttempted = ref(false);
 
 // hooks
-const { amountInUSD } = useCurrencyConversion('ADA', total.value, CRYPTO_AMOUNT)
+const { amountsInUSD } = useCurrencyConversion(
+  [CRYPTO_CURRENCIES.ADA],
+  total.value,
+  {
+    [CRYPTO_CURRENCIES.ADA]: CRYPTO_AMOUNT,
+  },
+);
 
 // passed handlers
-const emit = defineEmits(['onSaveClick', 'onProceedClick'])
+const emit = defineEmits(['onSaveClick', 'onProceedClick']);
 
 // local handlers
 function toggleExpandedStaking() {
-  isExpandedStaking.value = !isExpandedStaking.value
+  isExpandedStaking.value = !isExpandedStaking.value;
 }
 function toggleExpandedPrice() {
-  isExpandedPrice.value = !isExpandedPrice.value
+  isExpandedPrice.value = !isExpandedPrice.value;
 }
 function handleCheckboxChange(event: Event) {
-  valueOnFirstTry.value = true
-  const input = event.target as HTMLInputElement
-  isAgreed.value = input.checked
+  isSubmitAttempted.value = true;
+  const input = event.target as HTMLInputElement;
+  isAgreed.value = input.checked;
 }
 
 function proceedToCheckout() {
-  valueOnFirstTry.value = true
+  isSubmitAttempted.value = true;
   if (!isAgreed.value) {
-    // TODO: show error in ui, move checkbox state to cart store
-    alert('Please agree to the terms and conditions')
+    notify({
+      type: 'error',
+      title: 'Please agree to the terms and conditions',
+    });
   } else {
-    emit('onProceedClick')
+    emit('onProceedClick');
   }
 }
 </script>
 
 <template>
   <div
-    class="w-full mt-[74px] md:mt-0 px-6 md:px-[30px] md:flex md:items-center md:justify-center flex-1"
+    class="w-full mt-[74px] md:mt-0 px-6 md:px-[30px] md:flex md:justify-center flex-1 py-6 h-full"
   >
     <div
       class="px-1 pb-14 lg:pb-[30px] md:px-[30px] flex flex-col flex-1 gap-10 md:gap-[50px] md:w-full md:max-w-[688px]"
@@ -182,21 +196,26 @@ function proceedToCheckout() {
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
                 >{{ item.quantity }}x {{ PRODUCT_NAME }} {{ item.name }}
-                {{ !item.isFull ? '(No Drives)' : '' }}</span
+                {{ !item.isCustomVersion ? '(No Drives)' : '' }}</span
               >
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >USD {{ formatPrice(item.price * item.quantity) }}</span
+                >{{ DEFAULT_CURRENCY.toUpperCase() }}
+                {{ formatPrice(item.price * item.quantity) }}</span
               >
             </div>
             <div class="flex items-center justify-between">
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >{{ CRYPTO_AMOUNT }} ADA conversion fee</span
+                >{{ CRYPTO_AMOUNT }} {{ CRYPTO_CURRENCIES.ADA }} conversion
+                fee</span
               >
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >USD {{ formatPrice(amountInUSD) }}</span
+                >{{ DEFAULT_CURRENCY.toUpperCase() }}
+                {{
+                  formatPrice(amountsInUSD[CRYPTO_CURRENCIES.ADA] || '')
+                }}</span
               >
             </div>
             <div class="flex items-center justify-between">
@@ -206,7 +225,7 @@ function proceedToCheckout() {
               >
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >USD 0</span
+                >{{ DEFAULT_CURRENCY.toUpperCase() }} 0</span
               >
             </div>
           </div>
@@ -219,21 +238,20 @@ function proceedToCheckout() {
             <p
               class="font-poppins text-[26px] leading-[22px] font-light text-grayscaleLicorice"
             >
-              USD {{ formatPrice(total) }}
+              {{ DEFAULT_CURRENCY.toUpperCase() }} {{ formatPrice(total) }}
             </p>
           </div>
         </div>
       </div>
       <div class="flex items-center gap-[13px]">
         <div class="inline-flex items-center">
-          <!--      checked:border-purple-cold    border-purple-cold-->
           <label class="flex items-center cursor-pointer relative">
             <input
               type="checkbox"
               :class="[
                 'peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border-2 checked:bg-[linear-gradient(86deg,#4E95FF_3.57%,#906AFF_95.84%)]',
-                !isAgreed && valueOnFirstTry && 'border-red-500',
-                (isAgreed || !valueOnFirstTry) && 'border-purple-cold',
+                !isAgreed && isSubmitAttempted && 'border-red-500',
+                (isAgreed || !isSubmitAttempted) && 'border-purple-cold',
               ]"
               id="check"
               @change="handleCheckboxChange"

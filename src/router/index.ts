@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView'
-import { BASE_URL } from '@/constants/paths'
+import { BASE_URL } from '@/constants'
 
 const router = createRouter({
   history: createWebHistory(BASE_URL),
@@ -12,7 +12,7 @@ const router = createRouter({
     },
     {
       path: '/:pathMatch(.*)*',
-      name: 'not-fount',
+      name: 'not-found',
       component: () => import('../views/NotFoundView.vue'),
     },
   ],

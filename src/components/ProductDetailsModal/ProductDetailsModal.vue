@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { defineEmits, defineProps } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
+import { MODEL_TYPE } from '@/constants'
 import { IconCross, IconLogo } from '@/components/icons'
 import CustomButton from '@/components/UI/CustomButton.vue'
 import ProductCard from './ProductCard.vue'
 
 const productDetails = [
   {
-    name: 'Qs',
+    name: MODEL_TYPE.QS,
     description:
       'Tailored for storage nodes, capable of handling compute tasks efficiently.',
     specifications: [
@@ -124,7 +125,7 @@ const productDetails = [
     },
   },
   {
-    name: 'Qs Pro',
+    name: MODEL_TYPE.QS_PRO,
     description:
       'Optimized for both storage and compute tasks, ensuring seamless performance.',
     specifications: [
@@ -242,13 +243,13 @@ const productDetails = [
   },
 ]
 
+// interfaces
+interface Props {
+  isOpen: boolean
+}
+
 // props
-defineProps({
-  isOpen: {
-    type: Boolean,
-    required: true,
-  },
-})
+const { isOpen } = defineProps<Props>()
 
 // passed handlers
 const emit = defineEmits(['setIsOpen', 'preorderClick'])
