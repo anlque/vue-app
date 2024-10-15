@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { Dialog, DialogPanel } from '@headlessui/vue'
 import { defineProps, defineEmits, computed, ref } from 'vue'
-import { useWizardStore } from '@/stores/wizard'
-import { useWalletStore } from '@/stores/wallet'
-import IconLogo from '@/components/icons/IconLogo.vue'
-import IconCross from '@/components/icons/IconCross.vue'
+import { Dialog, DialogPanel } from '@headlessui/vue'
+import { useMainStore } from '@/stores/mainStore'
+import { IconLogo, IconCross, IconPower } from '@/components/icons'
 import {
   IconBeginWallet,
   IconEternlWallet,
@@ -16,14 +14,15 @@ import {
   IconLaceWallet,
   IconVesprWallet,
 } from '@/components/icons/wallets'
-import WalletStep from '@/components/PreorderModal/steps/WalletStep.vue'
-import FormStep from './steps/FormStep'
-import SummaryStep from './steps/SummaryStep'
-import PaymentStep from '@/components/PreorderModal/steps/PaymentStep.vue'
-import IconPower from '@/components/icons/IconPower.vue'
-import CartStep from './steps/CartStep'
-import { useCartStore } from '@/stores/cart'
+import {
+  WalletStep,
+  FormStep,
+  SummaryStep,
+  PaymentStep,
+  CartStep,
+} from './steps'
 
+// props
 defineProps({
   isOpen: {
     type: Boolean,
@@ -31,12 +30,13 @@ defineProps({
   },
 })
 
+// passed handlers
 const emit = defineEmits(['setIsOpen'])
 
-const wizardStore = useWizardStore()
-const walletStore = useWalletStore()
-const cartStore = useCartStore()
+// store
+const { wizardStore, walletStore, cartStore } = useMainStore()
 
+// local state
 const wallets = ref([
   {
     name: 'Begin',
@@ -85,9 +85,9 @@ const wallets = ref([
     isInstalled: false,
   },
 ])
-
 const selectedWallet = ref(null)
 
+// local handlers
 const selectWallet = walletName => {
   selectedWallet.value = walletName
 }
@@ -96,7 +96,7 @@ const connectWallet = () => {
   if (selectedWallet.value) walletStore.connectWallet(selectedWallet.value)
 }
 
-function isWalletAvailable(walletName: string): boolean {
+const isWalletAvailable = (walletName: string): boolean => {
   return !!window.cardano?.[walletName.toLowerCase()]
 }
 
@@ -112,10 +112,6 @@ const formattedData = computed(() => {
 })
 
 // TODO: wallet name enum
-// const debugWallet = (value, walletName) => {
-//   console.log('Debug Wallet Name:', value, walletName)
-//   return walletName
-// }
 </script>
 
 <template>
@@ -125,12 +121,10 @@ const formattedData = computed(() => {
     class="fixed inset-0 z-50 flex items-center justify-center h-screen w-screen bg-[#0C1219]/75 backdrop-blur-[150px] bg-opacity-100"
   >
     <DialogPanel
-      class="w-full h-full mx-auto rounded-lg shadow-lg relative text-gray-900 bg-black/20"
+      class="w-full h-full mx-auto rounded-lg shadow-lg relative text-gray-900 bg-black/20 px-14"
     >
       <!--  header -->
-      <div
-        class="flex p-5 desktop:p-[30px] justify-between items-center sticky h-[3.5rem]"
-      >
+      <div class="flex items-center justify-between p-6 sticky">
         <div class="flex gap-2 items-center max-h-[3.5rem]">
           <IconLogo />
           <p
@@ -142,8 +136,8 @@ const formattedData = computed(() => {
             >
           </p>
         </div>
-        <div class="flex gap-2 items-center">
-          <div class="flex items-center gap-1.5">
+        <div class="flex items-center justify-center gap-3">
+          <div class="flex items-center gap-2">
             <span
               v-for="n in wizardStore.totalSteps"
               :key="n"
@@ -180,7 +174,7 @@ const formattedData = computed(() => {
       </div>
       <!-- content -->
       <div
-        class="w-full max-h-full overflow-y-auto h-[calc(100vh-3.5rem)] invisible-scrollbar"
+        class="w-full max-h-full overflow-y-auto pb-10 invisible-scrollbar mt-[74px] md:mt-0 px-6 md:px-[30px] md:flex md:items-center md:justify-center flex-1"
       >
         <WalletStep
           v-if="wizardStore.currentStep === 1"
@@ -210,7 +204,10 @@ const formattedData = computed(() => {
           @onBackClick="wizardStore.prevStep"
           @onProceedClick="wizardStore.nextStep"
         />
-        <PaymentStep v-else-if="wizardStore.currentStep === 5" />
+        <PaymentStep
+          v-else-if="wizardStore.currentStep === 5"
+          @onBackClick="wizardStore.prevStep"
+        />
       </div>
     </DialogPanel>
   </Dialog>

@@ -1,14 +1,7 @@
 <script setup lang="ts">
-import IconLogo from '@/components/icons/IconLogo.vue'
+import { IconLogo } from '@/components/icons'
 import { defineProps } from 'vue'
 import type { CartItem } from '@/stores/cart'
-
-interface Props {
-  items: CartItem
-  constraint: 'min' | 'max'
-  total: number
-  isExpanded: boolean
-}
 
 const commitment = {
   min: {
@@ -21,6 +14,15 @@ const commitment = {
   },
 }
 
+// interfaces
+interface Props {
+  items: CartItem
+  constraint: 'min' | 'max'
+  total: string
+  isExpanded: boolean
+}
+
+// props
 const { items, constraint, total, isExpanded } = defineProps<Props>()
 </script>
 
@@ -55,7 +57,7 @@ const { items, constraint, total, isExpanded } = defineProps<Props>()
           <IconLogo />
         </span>
         <p
-          class="text-[13px] leading-3 font-medium text-grayscaleLicorice capitalize text-ellipsis whitespace-nowrap overflow-hidden w-[92px] sm:w-full"
+          class="text-[13px] font-medium text-grayscaleLicorice capitalize text-ellipsis whitespace-nowrap overflow-y-auto w-[92px] sm:w-full"
         >
           {{ constraint }}
         </p>

@@ -1,26 +1,25 @@
 <script setup lang="ts">
 import CustomButton from '@/components/UI/CustomButton.vue'
 import { defineEmits } from 'vue'
-import { useFormStore } from '@/stores/form'
+import { useMainStore } from '@/stores/mainStore'
 import FormInput from '@/components/PreorderModal/steps/FormStep/FormInput.vue'
 import { storeToRefs } from 'pinia'
 
-// interface Props {}
-
-// const { selectedWallet, wallets } = defineProps<Props>()
-
-const formStore = useFormStore()
+// store
+const { formStore } = useMainStore()
 const { form, errors } = storeToRefs(formStore)
-
 const { updateField, validateForm } = formStore
 
+// passed handlers
 const emit = defineEmits(['onSaveClick', 'onBackClick'])
 
+// local handlers
 function updateFormField(fieldName: string, fieldValue: string) {
   updateField(fieldName, fieldValue)
 }
 
 function validateAndSave() {
+  console.log('validateAndSave')
   validateForm()
   if (!Object.values(formStore.errors).some(err => err)) {
     emit('onSaveClick')
@@ -152,15 +151,11 @@ function validateAndSave() {
         </p>
       </div>
       <div class="flex w-full gap-5 pt-5">
-        <CustomButton :className="'w-1/2'" @click="emit('onBackClick')">
+        <CustomButton class="w-1/2" @click="emit('onBackClick')">
           Back
         </CustomButton>
 
-        <CustomButton
-          :className="'w-1/2'"
-          :isPrimary="true"
-          @click="validateAndSave"
-        >
+        <CustomButton :isPrimary="true" class="w-1/2" @click="validateAndSave">
           Save Shipping info
         </CustomButton>
       </div>

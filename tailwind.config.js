@@ -16,19 +16,15 @@ export default {
         'grayscale-line': 'var(--grayscale-line)',
         'grayscale-line-2': 'var(--grayscale-line-2)',
         'error-default': 'var(--error-default)',
+        'warning-hover': 'var(--warning-hover)',
       },
       fontFamily: {
         poppins: ['var(--font-poppins)', 'sans-serif'],
       },
       screens: {
         md: '744px',
-        // => @media (min-width: 640px) { ... }
-
         lg: '1025px',
-        // => @media (min-width: 1024px) { ... }
-
         desktop: '1400px',
-        // => @media (min-width: 1280px) { ... }
       },
     },
   },

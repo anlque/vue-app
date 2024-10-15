@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
-import IconInfo from '@/components/icons/IconInfo.vue'
+import { IconInfo } from '@/components/icons'
 import { defineProps } from 'vue'
 
+// interfaces
 interface Props {
   text: string
 }
 
+//props
 const { text } = defineProps<Props>()
 </script>
 
@@ -18,7 +20,7 @@ const { text } = defineProps<Props>()
     >
 
     <PopoverPanel
-      class="popover-content z-10 w-52 p-1 bg-white border border-gray-300 rounded shadow-lg right-0 bottom-[210%]"
+      class="popover-content z-10 w-52 p-1 bg-white border border-gray-300 rounded shadow-lg right-0 bottom-[90%]"
     >
       <p class="text-xs leading-4 text-grayscale-milk-white">
         {{ text }}

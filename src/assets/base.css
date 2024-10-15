@@ -29,11 +29,13 @@
   --grayscale-line: #323a47;
   --grayscale-line-2: #242c39;
   --error-default: #ff375f;
+  --warning-hover: #ffc107;
   --cyclone-pattern: url(/src/assets/images/cyclone-pattern.webp);
   --cyclone-desktop-pattern: url(/src/assets/images/cyclone-desktop-pattern.webp);
 
-  --font-poppins: "__Poppins_19aa22", "__Poppins_Fallback_19aa22";
-  --font-karla: "__Karla_debc80", "__Karla_Fallback_debc80";
+  --font-poppins: "Poppins", sans-serif;
+  /*--font-poppins: "__Poppins_19aa22", "__Poppins_Fallback_19aa22";*/
+  --font-karla: "Karla", sans-serif;
 }
 
 /* semantic color variables for this project */

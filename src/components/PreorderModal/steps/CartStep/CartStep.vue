@@ -1,39 +1,36 @@
 <script setup lang="ts">
-import CustomButton from '@/components/UI/CustomButton.vue'
-import { defineEmits, ref, computed } from 'vue'
-import IconCube from '@/components/icons/IconCube.vue'
-import { PRODUCT_NAME, useCartStore } from '@/stores/cart'
-import CartItem from './CartItem.vue'
-import IconCart from '@/components/icons/IconCart.vue'
+import { defineEmits, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useFetchAdaToUsd } from '@/hooks/useFetchAdaToUsd'
+import { useMainStore } from '@/stores/mainStore'
+import { useCurrencyConversion } from '@/hooks/useCurrencyConversion'
+import { formatPrice } from '@/utils/formatPrice'
+import { PRODUCT_NAME } from '@/constants/ui'
+import CustomButton from '@/components/UI/CustomButton.vue'
+import { IconCube, IconCart } from '@/components/icons'
+import CartItem from './CartItem.vue'
+import { CRYPTO_AMOUNT } from '@/constants/ui'
 
-// interface Props {}
-
-// const { selectedWallet, wallets } = defineProps<Props>()
-const isExpanded = ref(false)
-const cartStore = useCartStore()
+// store
+const { cartStore } = useMainStore()
 const { addItem, removeItem } = cartStore
 const { fullItems, nonFullItems, total, addedItems } = storeToRefs(cartStore)
+// local state
+const isExpanded = ref(false)
 
+// passed handlers
 const emit = defineEmits(['onClose', 'onProceedClick'])
+
+// local handlers
 function toggleExpanded() {
   isExpanded.value = !isExpanded.value
 }
-const conversionFee = 10
-const { adaFeeInUsd, totalInAda } = useFetchAdaToUsd(conversionFee, total)
 
-//
-// onMounted(() => {
-//   fetchAdaToUsd()
-// })
-
-const formattedTotal = computed(() => {
-  return totalInAda.value.toLocaleString('en-US', {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  })
-})
+// hooks
+const { amountInCrypto, amountInUSD } = useCurrencyConversion(
+  'ADA',
+  total.value,
+  CRYPTO_AMOUNT,
+)
 </script>
 
 <template>
@@ -112,17 +109,17 @@ const formattedTotal = computed(() => {
               >
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >USD {{ item.price * item.quantity }}</span
+                >USD {{ formatPrice(item.price * item.quantity) }}</span
               >
             </div>
             <div class="flex items-center justify-between">
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >10 ADA conversion fee</span
+                >{{ CRYPTO_AMOUNT }} ADA conversion fee</span
               >
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >USD {{ adaFeeInUsd }}</span
+                >USD {{ formatPrice(amountInUSD) }}</span
               >
             </div>
             <div class="flex items-center justify-between">
@@ -144,7 +141,7 @@ const formattedTotal = computed(() => {
             <p
               class="font-poppins text-[26px] leading-[22px] font-light text-grayscaleLicorice"
             >
-              USD {{ total }}
+              USD {{ formatPrice(total) }}
             </p>
           </div>
         </div>
@@ -153,27 +150,28 @@ const formattedTotal = computed(() => {
         >
           <span
             class="text-xs font-normal text-grayscaleWaterloo italic ml-auto md:ml-0"
-            >Including 10 ADA Conversion Fees and Free shipping</span
+            >Including {{ CRYPTO_AMOUNT }} ADA Conversion Fees and Free
+            shipping</span
           >
           <p
-            class="text-xs font-normal text-text-grayscaleWaterloo capitalize ml-auto"
+            class="text-xs font-normal text-grayscaleWaterloo capitalize ml-auto"
           >
             <span class="hidden md:inline-block"
-              >Current Market conversion =</span
-            >
-            <span class="italic text-grayscaleLicorice"
-              >{{ formattedTotal }} ADA</span
+              >Current Market conversion =
+            </span>
+            <span class="italic text-grayscaleLicorice">
+              {{ formatPrice(amountInCrypto) }} ADA</span
             >
           </p>
         </div>
       </div>
       <div class="flex w-full gap-5 pt-5">
-        <CustomButton :className="'w-1/2'" @click="emit('onClose')">
+        <CustomButton class="w-1/2" @click="emit('onClose')">
           Close
         </CustomButton>
 
         <CustomButton
-          :className="'w-1/2'"
+          class="w-1/2"
           :isPrimary="true"
           @click="emit('onProceedClick')"
         >

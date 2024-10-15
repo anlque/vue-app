@@ -1,8 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
-export const PRODUCT_NAME = 'Cyclone'
-
 export interface CartItem {
   name: string
   id: string
@@ -56,9 +54,6 @@ export const useCartStore = defineStore('cart', () => {
     if (existingItem) {
       existingItem.quantity++
     }
-    // else {
-    //   items.value.push({ name, price, quantity })
-    // }
   }
 
   function removeItem(id: string) {

@@ -16,11 +16,11 @@ const regexPatterns = {
   fullName: /^[\p{L}\s]+$/u,
   phone: /^\+?\d{10,15}$/,
   email: /[^@\s]+@[^@\s]+\.[^@\s]+/,
-  street: /^[\p{L}\s]+$/u,
-  apartment: /^[\p{L}\s]+$/u,
-  city: /^[\p{L}\s]+$/u,
+  street: /^[\p{L}\d\s.,]+$/u,
+  apartment: /^[\p{L}\d\s.,]*$/u,
+  city: /^[\p{L}\s.,]+$/u,
   postalCode: /^[0-9]{5}(?:-[0-9]{4})?$/,
-  state: /^[\p{L}\s]+$/u,
+  state: /^[\p{L}\s.,]+$/u,
   country: /^[\p{L}\s]+$/u,
 }
 
@@ -50,21 +50,8 @@ export const useFormStore = defineStore('form', () => {
     country: false,
   })
 
-  // function updateFullName(newFullName: string) {
-  //   fullName.value = newFullName
-  // }
-  //
-  // function updatePhone(newPhone: string) {
-  //   phone.value = newPhone
-  // }
-  //
-  // function updateEmail(newEmail: string) {
-  //   email.value = newEmail
-  // }
-
   function updateField(field: keyof FormState, value: string) {
     if (errors.value[field] && regexPatterns[field].test(value)) {
-      console.log('test')
       errors.value[field] = false
     } else if (value.length === 0) {
       errors.value[field] = true
@@ -73,31 +60,19 @@ export const useFormStore = defineStore('form', () => {
   }
 
   function validateForm() {
-    const { fullName, email, phone, street } = form.value
-    if (!fullName) errors.value.fullName = true
-    if (!email.includes('@')) errors.value.email = true
-    if (!phone) errors.value.phone = true
-    if (!street) errors.value.street = true
-    // Добавьте остальные проверки для полей
-  }
+    const fields = form.value
 
-  function resetFieldError(field: string) {
-    console.log('TEST RESET', field)
-    errors.value[field] = false
+    Object.entries(fields).forEach(([key, value]) => {
+      if (!regexPatterns[key].test(value)) {
+        errors.value[key] = true
+      }
+    })
   }
-
-  // function updateShippingInfo(data: ShippingInfo) {
-  //   fullName.value = data.fullName;
-  //   phone.value = data.phone;
-  //   email.value = data.email;
-  //   address.value = data.address;
-  // }
 
   return {
     form,
     errors,
     updateField,
     validateForm,
-    resetFieldError,
   }
 })

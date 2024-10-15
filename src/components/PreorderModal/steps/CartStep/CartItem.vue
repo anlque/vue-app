@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { defineEmits, defineProps } from 'vue'
-import IconMinus from '@/components/icons/IconMinus.vue'
-import IconPlus from '@/components/icons/IconPlus.vue'
-import { CartItem, PRODUCT_NAME } from '@/stores/cart'
+import { CartItem } from '@/stores/cart'
+import { formatPrice } from '@/utils/formatPrice'
+import { PRODUCT_NAME } from '@/constants/ui'
+import { IconMinus, IconPlus } from '@/components/icons'
 
+// interfaces
 interface Props {
   item: CartItem
 }
 
+// props
 const { item } = defineProps<Props>()
 
+// passed handlers
 const emit = defineEmits(['onIncrease', 'onDecrease'])
 </script>
 
@@ -34,7 +38,7 @@ const emit = defineEmits(['onIncrease', 'onDecrease'])
       >
         USD
         <span class="text-grayscaleLicorice font-poppins">{{
-          item.price
+          formatPrice(item.price)
         }}</span>
       </p>
       <div class="flex items-center gap-[10px]">

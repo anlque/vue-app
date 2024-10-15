@@ -1,36 +1,54 @@
 <script setup lang="ts">
 import CustomButton from '@/components/UI/CustomButton.vue'
 import { defineEmits, ref } from 'vue'
-import IconCube from '@/components/icons/IconCube.vue'
-import { PRODUCT_NAME, useCartStore } from '@/stores/cart'
+import { IconCube, IconShip, IconDownload, IconCart } from '@/components/icons'
+import { useCurrencyConversion } from '@/hooks/useCurrencyConversion'
+import { formatPrice } from '@/utils/formatPrice'
+import { PRODUCT_NAME, CRYPTO_AMOUNT } from '@/constants/ui'
+import { useMainStore } from '@/stores/mainStore'
 import { storeToRefs } from 'pinia'
-import SummaryItem from '@/components/PreorderModal/steps/SummaryStep/SummaryItem.vue'
-import IconShip from '@/components/icons/IconShip.vue'
-import IconDownload from '@/components/icons/IconDownload.vue'
-import IconCart from '@/components/icons/IconCart.vue'
-import { useFormStore } from '@/stores/form'
-import StakingItem from '@/components/PreorderModal/steps/SummaryStep/StakingItem.vue'
+import SummaryItem from './SummaryItem.vue'
+import StakingItem from './StakingItem.vue'
 
-// interface Props {}
-
-// const { selectedWallet, wallets } = defineProps<Props>()
-
-const cartStore = useCartStore()
-const formStore = useFormStore()
+// store
+const { cartStore, formStore } = useMainStore()
 const { addedItems, minStakeTotal, maxStakeTotal, total } =
   storeToRefs(cartStore)
 const { form } = storeToRefs(formStore)
 
+// local state
 const isExpandedStaking = ref(false)
 const isExpandedPrice = ref(false)
+const isAgreed = ref(false)
+const valueOnFirstTry = ref(false)
 
+// hooks
+const { amountInUSD } = useCurrencyConversion('ADA', total.value, CRYPTO_AMOUNT)
+
+// passed handlers
 const emit = defineEmits(['onSaveClick', 'onProceedClick'])
 
+// local handlers
 function toggleExpandedStaking() {
   isExpandedStaking.value = !isExpandedStaking.value
 }
 function toggleExpandedPrice() {
   isExpandedPrice.value = !isExpandedPrice.value
+}
+function handleCheckboxChange(event: Event) {
+  valueOnFirstTry.value = true
+  const input = event.target as HTMLInputElement
+  isAgreed.value = input.checked
+}
+
+function proceedToCheckout() {
+  valueOnFirstTry.value = true
+  if (!isAgreed.value) {
+    // TODO: show error in ui, move checkbox state to cart store
+    alert('Please agree to the terms and conditions')
+  } else {
+    emit('onProceedClick')
+  }
 }
 </script>
 
@@ -41,7 +59,7 @@ function toggleExpandedPrice() {
     <div
       class="px-1 pb-14 lg:pb-[30px] md:px-[30px] flex flex-col flex-1 gap-10 md:gap-[50px] md:w-full md:max-w-[688px]"
     >
-      <div class="flex flex-col gap-6">
+      <div class="flex flex-col gap-4">
         <div
           class="flex items-center justify-between max-[390px]:flex-col max-[390px]:items-start"
         >
@@ -103,17 +121,17 @@ function toggleExpandedPrice() {
             }}</span>
           </p>
         </div>
-        <div class="flex flex-col gap-[10px] lg:flex-row">
+        <div class="flex flex-col gap-2.5 lg:flex-row">
           <StakingItem
             :items="addedItems"
             constraint="min"
-            :total="minStakeTotal"
+            :total="formatPrice(minStakeTotal)"
             :isExpanded="isExpandedStaking"
           />
           <StakingItem
             :items="addedItems"
             constraint="max"
-            :total="maxStakeTotal"
+            :total="formatPrice(maxStakeTotal)"
             :isExpanded="isExpandedStaking"
           />
         </div>
@@ -130,7 +148,7 @@ function toggleExpandedPrice() {
           </p>
         </div>
         <div class="flex items-center justify-between">
-          <div class="flex items-center gap-[6px]">
+          <div class="flex items-center gap-1.5">
             <IconCart />
             <span
               class="font-poppins font-normal text-base leading-[22px] md:text-lg md:leading-9 text-grayscaleLicorice capitalize"
@@ -168,17 +186,17 @@ function toggleExpandedPrice() {
               >
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >USD {{ item.price * item.quantity }}</span
+                >USD {{ formatPrice(item.price * item.quantity) }}</span
               >
             </div>
             <div class="flex items-center justify-between">
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >10 ADA conversion fee</span
+                >{{ CRYPTO_AMOUNT }} ADA conversion fee</span
               >
               <span
                 class="text-[13px] font-medium leading-3 text-grayscaleLicorice"
-                >USD {{ adaFeeInUsd }}</span
+                >USD {{ formatPrice(amountInUSD) }}</span
               >
             </div>
             <div class="flex items-center justify-between">
@@ -201,20 +219,66 @@ function toggleExpandedPrice() {
             <p
               class="font-poppins text-[26px] leading-[22px] font-light text-grayscaleLicorice"
             >
-              USD {{ total }}
+              USD {{ formatPrice(total) }}
             </p>
           </div>
         </div>
       </div>
-      <div class="flex w-full gap-5 pt-5">
-        <CustomButton :className="'w-1/2'" @click="emit('onBackClick')">
+      <div class="flex items-center gap-[13px]">
+        <div class="inline-flex items-center">
+          <!--      checked:border-purple-cold    border-purple-cold-->
+          <label class="flex items-center cursor-pointer relative">
+            <input
+              type="checkbox"
+              :class="[
+                'peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border-2 checked:bg-[linear-gradient(86deg,#4E95FF_3.57%,#906AFF_95.84%)]',
+                !isAgreed && valueOnFirstTry && 'border-red-500',
+                (isAgreed || !valueOnFirstTry) && 'border-purple-cold',
+              ]"
+              id="check"
+              @change="handleCheckboxChange"
+            />
+            <span
+              class="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-3.5 w-3.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </span>
+          </label>
+        </div>
+        <p
+          class="text-xs md:text-base md:leading-[26px] text-grayscale-waterloo font-normal"
+        >
+          I have read and agree with the
+          <a
+            href="https://iagon.com/cyclone-legal"
+            target="_blank"
+            class="text-purple-cold underline cursor-pointer"
+            >Terms & Conditions</a
+          >
+        </p>
+      </div>
+      <div class="flex w-full gap-5">
+        <CustomButton class="w-1/2" @click="emit('onBackClick')">
           Back
         </CustomButton>
 
         <CustomButton
           :isPrimary="true"
-          :className="'w-1/2'"
-          @click="emit('onProceedClick')"
+          class="w-1/2"
+          @click="proceedToCheckout"
         >
           Proceed To Checkout
         </CustomButton>

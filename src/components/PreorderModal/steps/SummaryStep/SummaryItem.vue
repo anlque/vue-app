@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
-import { PRODUCT_NAME } from '@/stores/cart'
+import { PRODUCT_NAME } from '@/constants/ui'
 
+// interfaces
 interface Props {
   item: { name: string; quantity: number }
 }
+
+// props
 const { item } = defineProps<Props>()
 </script>
 
