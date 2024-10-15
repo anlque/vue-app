@@ -29,12 +29,12 @@
   --grayscale-line: #323a47;
   --grayscale-line-2: #242c39;
   --error-default: #ff375f;
+  --success-default: #44d7b6;
   --warning-hover: #ffc107;
-  --cyclone-pattern: url(/src/assets/images/cyclone-pattern.webp);
-  --cyclone-desktop-pattern: url(/src/assets/images/cyclone-desktop-pattern.webp);
+  --cyclone-pattern: url(/public/images/cyclone-pattern.webp);
+  --cyclone-desktop-pattern: url(/public/images/cyclone-desktop-pattern.webp);
 
   --font-poppins: "Poppins", sans-serif;
-  /*--font-poppins: "__Poppins_19aa22", "__Poppins_Fallback_19aa22";*/
   --font-karla: "Karla", sans-serif;
 }
 
@@ -79,24 +79,11 @@ body {
   min-height: 100vh;
   color: var(--color-text);
   background: var(--color-background);
-  background-image: url('/src/assets/images/cyclone-desktop-pattern.webp');
+  background-image: url('/public/images/cyclone-desktop-pattern.webp');
   transition:
     color 0.5s,
     background-color 0.5s;
   line-height: 1.6;
-  /*font-family:*/
-  /*  Inter,*/
-  /*  -apple-system,*/
-  /*  BlinkMacSystemFont,*/
-  /*  'Segoe UI',*/
-  /*  Roboto,*/
-  /*  Oxygen,*/
-  /*  Ubuntu,*/
-  /*  Cantarell,*/
-  /*  'Fira Sans',*/
-  /*  'Droid Sans',*/
-  /*  'Helvetica Neue',*/
-  /*  sans-serif;*/
   font-family: 'karla', sans-serif;
   font-size: 15px;
   text-rendering: optimizeLegibility;
@@ -116,4 +103,43 @@ body {
     scrollbar-width: none;  /* Firefox */
   }
 
+}
+
+.notyf__toast {
+  border-radius: 8px !important;
+  font-family: 'Poppins', sans-serif;
+  color: #ffff;
+  font-weight: 400;
+  font-size : 18px;
+  line-height: 18px;
+  display: flex;
+}
+
+.notyf__icon {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+
+}
+
+.notyf__toast--success .notyf__icon {
+  background: var(--success-default);
+}
+
+.notyf__toast--error .notyf__icon {
+  background: var(--error-default);
+}
+
+.notification-header {
+  font-weight: 400;
+  font-size : 12px;
+  line-height: 14px;
+}
+
+.notyf__toast--success .notification-header {
+ color: var(--success-default);
+}
+
+.notyf__toast--error .notification-header {
+  color: var(--error-default);
 }
