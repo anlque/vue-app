@@ -156,9 +156,13 @@ const validateAndSave = () => {
           Back
         </CustomButton>
 
-        <CustomButton :isPrimary="true" class="w-1/2" @click="validateAndSave">
+        <CustomButton
+          :isPrimary="true"
+          class="w-1/2 gap-1"
+          @click="validateAndSave"
+        >
           Save
-          <span class="hidden sm:block">Shipping info</span>
+          <span class="hidden sm:inline-block">Shipping info</span>
         </CustomButton>
       </div>
     </div>

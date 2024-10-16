@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { type Component, defineProps } from 'vue';
 import {
   IconCpu,
   IconRam,
@@ -11,9 +11,9 @@ import {
   IconWifi,
   IconStorage,
   IconCardano,
-} from '@/components/icons/product'
+} from '@/components/icons/product';
 
-const icons: { [key: string]: any } = {
+const icons: { [key: string]: Component } = {
   cpu: IconCpu,
   ram: IconRam,
   hdd: IconHdd,
@@ -24,18 +24,18 @@ const icons: { [key: string]: any } = {
   wifi: IconWifi,
   storage: IconStorage,
   cardano: IconCardano,
-}
+};
 
 // interfaces
 interface Props {
-  title: string
-  value: string
-  id: string
-  isHighlighted: boolean
+  title: string;
+  value: string;
+  id: string;
+  isHighlighted: boolean;
 }
 
 // props
-const { title, value, id, isHighlighted } = defineProps<Props>()
+const { title, value, id, isHighlighted } = defineProps<Props>();
 </script>
 
 <template>

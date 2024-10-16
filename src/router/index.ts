@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView'
-import { BASE_URL } from '@/constants'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView';
+import { BASE_URL } from '@/constants';
 
 const router = createRouter({
   history: createWebHistory(BASE_URL),
@@ -16,6 +16,6 @@ const router = createRouter({
       component: () => import('../views/NotFoundView.vue'),
     },
   ],
-})
+});
 
-export default router
+export default router;

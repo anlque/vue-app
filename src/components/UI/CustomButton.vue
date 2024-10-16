@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps } from 'vue';
 
 // interfaces
 interface Props {
-  isPrimary?: boolean
+  isPrimary?: boolean;
 }
 
 // props
-const { isPrimary = false } = defineProps<Props>()
+const { isPrimary = false } = defineProps<Props>();
 </script>
 
 <template>

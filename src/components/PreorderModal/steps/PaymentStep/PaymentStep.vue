@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineEmits } from 'vue';
+import { defineEmits, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useMainStore } from '@/stores/mainStore';
 import type { Currency } from '@/stores/wallet';
@@ -28,10 +28,12 @@ const { wallet } = storeToRefs(walletStore);
 const emit = defineEmits(['onBackClick']);
 
 // hooks
+const currencies = ref(paymentMethods);
+const cryptoAmounts = ref({});
 const { amountsInCrypto } = useCurrencyConversion(
-  paymentMethods,
-  total.value,
-  {},
+  currencies,
+  total,
+  cryptoAmounts,
 );
 const { isLoading, performRequest } = useMockRequest();
 
@@ -96,7 +98,7 @@ const onSignTransaction = () => {
         >
           <CustomLoader v-if="isLoading" />
           <p v-if="!isLoading">
-            Sign <span class="hidden sm:block"> Transaction</span>
+            Sign <span class="hidden sm:inline-block"> Transaction</span>
           </p>
         </CustomButton>
       </div>

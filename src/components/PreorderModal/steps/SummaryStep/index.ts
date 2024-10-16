@@ -1,3 +1,3 @@
-import SummaryStep from './SummaryStep.vue'
+import SummaryStep from './SummaryStep.vue';
 
-export default SummaryStep
+export default SummaryStep;

@@ -67,9 +67,9 @@ const setIsPreorderOpen = (value: boolean) => {
   isPreorderOpen.value = value;
 };
 
-function setActiveProduct(product: ModelType) {
+const setActiveProduct = (product: ModelType) => {
   activeProduct.value = product;
-}
+};
 </script>
 
 <template>
@@ -112,6 +112,7 @@ function setActiveProduct(product: ModelType) {
               Preorder Your
             </h4>
             <h1
+              id="cyclone-title"
               class="font-poppins font-semibold text-4xl leading-9 md:text-[56px] desktop:text-[66px] md:leading-[66px] text-grayscaleLicorice"
             >
               Cyclone
@@ -139,10 +140,14 @@ function setActiveProduct(product: ModelType) {
             <div
               class="flex items-center gap-4 md:gap-[20px] pb-[25px] md:pb-0 w-full"
             >
-              <CustomButton class="w-1/2" @click="setIsDetailsOpen(true)"
+              <CustomButton
+                id="product-details-btn"
+                class="w-1/2"
+                @click="setIsDetailsOpen(true)"
                 >Product Details</CustomButton
               >
               <CustomButton
+                id="preorder-btn"
                 class="w-1/2"
                 :isPrimary="true"
                 @click="setIsPreorderOpen(true)"

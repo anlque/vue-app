@@ -1,3 +1,3 @@
-import ProductDetailsModal from './ProductDetailsModal.vue'
+import ProductDetailsModal from './ProductDetailsModal.vue';
 
-export default ProductDetailsModal
+export default ProductDetailsModal;

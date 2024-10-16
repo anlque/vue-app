@@ -1,26 +1,32 @@
 <script setup lang="ts">
-import { defineEmits, defineProps } from 'vue'
-import FormPopover from '@/components/PreorderModal/steps/FormStep/FormPopover.vue'
+import { defineEmits, defineProps } from 'vue';
+import FormPopover from '@/components/PreorderModal/steps/FormStep/FormPopover.vue';
 
 // interfaces
 interface Props {
-  value: string
-  id: string
-  error: boolean
-  placeholder?: string
-  popoverText?: string
+  value: string;
+  id: string;
+  error: boolean;
+  placeholder?: string;
+  popoverText?: string;
 }
 
 // props
-const { value, placeholder = '', popoverText, id, error } = defineProps<Props>()
+const {
+  value,
+  placeholder = '',
+  popoverText,
+  id,
+  error,
+} = defineProps<Props>();
 
 // passed handlers
-const emit = defineEmits(['onChange'])
+const emit = defineEmits(['onChange']);
 
 // local handlers
 function handleInput(event: Event) {
-  const input = event.target as HTMLInputElement
-  emit('onChange', input.value)
+  const input = event.target as HTMLInputElement;
+  emit('onChange', input.value);
 }
 </script>
 

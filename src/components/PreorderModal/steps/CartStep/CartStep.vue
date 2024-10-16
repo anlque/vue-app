@@ -30,12 +30,14 @@ function toggleExpanded() {
 }
 
 // hooks
+const currencies = ref([CRYPTO_CURRENCIES.ADA]);
+const cryptoAmounts = ref({
+  [CRYPTO_CURRENCIES.ADA]: CRYPTO_AMOUNT,
+});
 const { amountsInCrypto, amountsInUSD } = useCurrencyConversion(
-  [CRYPTO_CURRENCIES.ADA],
-  total.value,
-  {
-    [CRYPTO_CURRENCIES.ADA]: CRYPTO_AMOUNT,
-  },
+  currencies,
+  total,
+  cryptoAmounts,
 );
 </script>
 

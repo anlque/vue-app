@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
-import { PRODUCT_NAME } from '@/constants'
+import { defineProps } from 'vue';
+import { PRODUCT_NAME } from '@/constants';
 
 // interfaces
 interface Props {
-  item: { name: string; quantity: number }
+  item: { name: string; quantity: number };
 }
 
 // props
-const { item } = defineProps<Props>()
+const { item } = defineProps<Props>();
 </script>
 
 <template>

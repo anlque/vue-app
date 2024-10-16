@@ -1,3 +1,3 @@
-import FormStep from './FormStep.vue'
+import FormStep from './FormStep.vue';
 
-export default FormStep
+export default FormStep;

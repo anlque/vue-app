@@ -29,12 +29,14 @@ const isAgreed = ref(false);
 const isSubmitAttempted = ref(false);
 
 // hooks
+const currencies = ref([CRYPTO_CURRENCIES.ADA]);
+const cryptoAmounts = ref({
+  [CRYPTO_CURRENCIES.ADA]: CRYPTO_AMOUNT,
+});
 const { amountsInCrypto, amountsInUSD } = useCurrencyConversion(
-  [CRYPTO_CURRENCIES.ADA],
-  total.value,
-  {
-    [CRYPTO_CURRENCIES.ADA]: CRYPTO_AMOUNT,
-  },
+  currencies,
+  total,
+  cryptoAmounts,
 );
 
 // passed handlers
@@ -316,11 +318,11 @@ const proceedToCheckout = () => {
 
         <CustomButton
           :isPrimary="true"
-          class="w-1/2"
+          class="w-1/2 gap-1"
           @click="proceedToCheckout"
         >
           Proceed
-          <span class="hidden sm:block"> To Checkout</span>
+          <span class="hidden sm:inline-block"> To Checkout</span>
         </CustomButton>
       </div>
     </div>

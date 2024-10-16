@@ -1,16 +1,16 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
-import { MODEL_TYPE } from '@/constants'
+import { ref, computed } from 'vue';
+import { defineStore } from 'pinia';
+import { MODEL_TYPE } from '@/constants';
 
-export type ModelType = 'Qs' | 'Qs Pro'
+export type ModelType = 'Qs' | 'Qs Pro';
 
 export interface CartItem {
-  name: ModelType
-  id: string
-  price: number
-  quantity: number
-  isCustomVersion: boolean
-  staking: { min: number; max: number }
+  name: ModelType;
+  id: string;
+  price: number;
+  quantity: number;
+  isCustomVersion: boolean;
+  staking: { min: number; max: number };
 }
 
 const initialState: CartItem[] = [
@@ -46,33 +46,33 @@ const initialState: CartItem[] = [
     isCustomVersion: false,
     staking: { min: 3969.67, max: 76747.03 },
   },
-]
+];
 
 export const useCartStore = defineStore('cart', () => {
-  const items = ref(initialState)
+  const items = ref(initialState);
 
   function addItem(id: CartItem['id']) {
-    const existingItem = items.value.find(item => item.id === id)
+    const existingItem = items.value.find((item) => item.id === id);
     if (existingItem) {
-      existingItem.quantity++
+      existingItem.quantity++;
     }
   }
 
   function removeItem(id: CartItem['id']) {
-    const existingItem = items.value.find(item => item.id === id)
+    const existingItem = items.value.find((item) => item.id === id);
     if (existingItem && existingItem.quantity > 0) {
-      existingItem.quantity--
+      existingItem.quantity--;
     }
   }
 
   function resetCart() {
-    items.value.forEach(item => {
-      item.quantity = 0
-    })
+    items.value.forEach((item) => {
+      item.quantity = 0;
+    });
   }
   const total = computed(() =>
     items.value.reduce((sum, item) => sum + item.price * item.quantity, 0),
-  )
+  );
 
   const minStakeTotal = computed(
     () =>
@@ -82,7 +82,7 @@ export const useCartStore = defineStore('cart', () => {
           0,
         ) * 100,
       ) / 100,
-  )
+  );
 
   const maxStakeTotal = computed(
     () =>
@@ -92,17 +92,17 @@ export const useCartStore = defineStore('cart', () => {
           0,
         ) * 100,
       ) / 100,
-  )
+  );
 
   const fullItems = computed(() =>
-    items.value.filter(item => item.isCustomVersion),
-  )
+    items.value.filter((item) => item.isCustomVersion),
+  );
   const nonFullItems = computed(() =>
-    items.value.filter(item => !item.isCustomVersion),
-  )
+    items.value.filter((item) => !item.isCustomVersion),
+  );
   const addedItems = computed(() =>
-    items.value.filter(item => item.quantity > 0),
-  )
+    items.value.filter((item) => item.quantity > 0),
+  );
 
   return {
     items,
@@ -115,5 +115,5 @@ export const useCartStore = defineStore('cart', () => {
     addItem,
     removeItem,
     resetCart,
-  }
-})
+  };
+});

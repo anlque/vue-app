@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineEmits, ref, computed } from 'vue';
+import { defineEmits, ref, computed, shallowRef, type Component } from 'vue';
 import { useMainStore } from '@/stores/mainStore';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import { notify } from '@/utils/notify';
@@ -21,7 +21,7 @@ import {
 // interfaces
 interface Wallet {
   name: string;
-  icon: typeof IconBeginWallet;
+  icon: Component;
   isAvailable: boolean;
   link: string;
 }
@@ -40,56 +40,56 @@ const { walletStore } = useMainStore();
 const wallets = ref<Wallet[]>([
   {
     name: WALLET_NAME.BEGIN,
-    icon: IconBeginWallet,
+    icon: shallowRef(IconBeginWallet),
     isAvailable: false,
     link: 'https://begin.is/',
   },
   {
     name: WALLET_NAME.NAMI,
-    icon: IconNamiWallet,
+    icon: shallowRef(IconNamiWallet),
     isAvailable: false,
     link: 'https://www.namiwallet.io/',
   },
   {
     name: WALLET_NAME.YOROI,
-    icon: IconYoroiWallet,
+    icon: shallowRef(IconYoroiWallet),
     isAvailable: false,
     link: 'https://yoroi-wallet.com/',
   },
 
   {
     name: WALLET_NAME.ETERNL,
-    icon: IconEternlWallet,
+    icon: shallowRef(IconEternlWallet),
     isAvailable: false,
     link: 'https://eternl.io/',
   },
   {
     name: WALLET_NAME.TYPHON,
-    icon: IconTyphonWallet,
+    icon: shallowRef(IconTyphonWallet),
     isAvailable: false,
     link: 'https://typhonwallet.io/#/',
   },
   {
     name: WALLET_NAME.GERO,
-    icon: IconGeroWallet,
+    icon: shallowRef(IconGeroWallet),
     isAvailable: false,
     link: 'https://www.gerowallet.io/',
   },
   {
     name: WALLET_NAME.FLINT,
-    icon: IconFlintWallet,
+    icon: shallowRef(IconFlintWallet),
     isAvailable: false,
     link: 'https://flint-wallet.com/',
   },
   {
     name: WALLET_NAME.LACE,
-    icon: IconLaceWallet,
+    icon: shallowRef(IconLaceWallet),
     isAvailable: false,
     link: 'https://www.lace.io/',
   },
   {
     name: WALLET_NAME.VESPR,
-    icon: IconVesprWallet,
+    icon: shallowRef(IconVesprWallet),
     isAvailable: false,
     link: 'https://vespr.xyz/',
   },

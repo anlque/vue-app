@@ -15,6 +15,8 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.23",
+    "@juggle/resize-observer": "^3.4.0",
+    "@pinia/testing": "^0.1.6",
     "axios": "^1.7.7",
     "notyf": "^3.10.0",
     "pinia": "^2.2.4",

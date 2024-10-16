@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
-import { IconInfo } from '@/components/icons'
-import { defineProps } from 'vue'
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
+import { IconInfo } from '@/components/icons';
+import { defineProps } from 'vue';
 
 // interfaces
 interface Props {
-  text: string
+  text: string;
 }
 
 //props
-const { text } = defineProps<Props>()
+const { text } = defineProps<Props>();
 </script>
 
 <template>

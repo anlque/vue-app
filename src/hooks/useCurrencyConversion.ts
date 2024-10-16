@@ -84,9 +84,9 @@ const convertCryptoToUSD = (
 
 // ---hook---
 export function useCurrencyConversion(
-  currencies: Currency[],
-  totalUSD: number | null,
-  cryptoAmounts: { [key in Currency]?: number | null },
+  currencies: Ref<Currency[]>,
+  totalUSD: Ref<number | null>,
+  cryptoAmounts: Ref<{ [key in Currency]?: number | null }>,
 ): ConversionResult {
   const amountsInCrypto = ref<{ [key in Currency]?: number | null }>({});
   const amountsInUSD = ref<{ [key in Currency]?: number | null }>({});
@@ -103,13 +103,13 @@ export function useCurrencyConversion(
 
     try {
       // Get currencies ids for request
-      const coinIdsList = getCoinIds(currencies);
+      const coinIdsList = getCoinIds(currencies.value);
 
       // Get currency exchange rates
       if (coinIdsList.length > 0) {
         const data = await fetchRatesFromAPI(coinIdsList);
 
-        currencies.forEach((currency) => {
+        currencies.value.forEach((currency) => {
           const coinId = coinIds[currency.toUpperCase()];
           exchangeRates.value[currency.toUpperCase() as Currency] =
             data[coinId]?.usd || null;
@@ -118,12 +118,12 @@ export function useCurrencyConversion(
 
       // Convert
       amountsInCrypto.value = convertUSDtoCrypto(
-        totalUSD,
+        totalUSD.value,
         exchangeRates.value,
-        currencies,
+        currencies.value,
       );
       amountsInUSD.value = convertCryptoToUSD(
-        cryptoAmounts,
+        cryptoAmounts.value,
         exchangeRates.value,
       );
     } catch (err) {
@@ -138,7 +138,10 @@ export function useCurrencyConversion(
   watch(
     [currencies, totalUSD, cryptoAmounts],
     () => {
-      if (Boolean(totalUSD) || cryptoAmounts) {
+      if (
+        Boolean(totalUSD.value) ||
+        Boolean(Object.keys(cryptoAmounts.value).length)
+      ) {
         fetchExchangeRates();
       } else {
         amountsInCrypto.value = {};

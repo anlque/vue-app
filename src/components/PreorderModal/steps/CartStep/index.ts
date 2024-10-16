@@ -1,3 +1,3 @@
-import CartStep from './CartStep.vue'
+import CartStep from './CartStep.vue';
 
-export default CartStep
+export default CartStep;
