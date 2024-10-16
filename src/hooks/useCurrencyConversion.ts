@@ -126,7 +126,6 @@ export function useCurrencyConversion(
         cryptoAmounts.value,
         exchangeRates.value,
       );
-      console.log('amountsInUSD', amountsInUSD.value);
     } catch (err) {
       error.value = (err as Error).message || 'Failed to get exchange rates';
       amountsInCrypto.value = {};

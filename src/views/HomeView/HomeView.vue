@@ -73,7 +73,7 @@ const setActiveProduct = (product: ModelType) => {
 </script>
 
 <template>
-  <main class="w-screen h-screen overflow-y-auto invisible-scrollbar">
+  <main class="w-screen h-screen overflow-hidden invisible-scrollbar">
     <!-- header -->
     <div
       class="flex justify-between h-[3.5rem] px-4 sm:px-14 py-9 items-center"
