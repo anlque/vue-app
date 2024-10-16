@@ -6,9 +6,9 @@ import ProductDetailsModal from '@/components/ProductDetailsModal';
 import PreorderModal from '@/components/PreorderModal';
 import CustomButton from '@/components/UI/CustomButton.vue';
 import { IconLogo, IconIagon } from '@/components/icons';
+import type { ProductSpec } from './types';
 import ProductButton from './ProductButton.vue';
 import ProductInfo from './ProductInfo.vue';
-import type { ProductSpec } from './types';
 
 const cycloneModels: Record<ModelType, ProductSpec> = {
   [MODEL_TYPE.QS]: {
@@ -73,7 +73,7 @@ function setActiveProduct(product: ModelType) {
 </script>
 
 <template>
-  <main class="w-screen h-screen">
+  <main class="w-screen h-screen overflow-y-auto invisible-scrollbar">
     <!-- header -->
     <div class="flex justify-between h-[3.5rem] px-14 py-9 items-center">
       <IconLogo />
@@ -87,9 +87,9 @@ function setActiveProduct(product: ModelType) {
     </div>
 
     <!-- content -->
-    <div class="w-full px-14">
+    <div class="w-full px-2 sm:px-14 pb-20">
       <div
-        class="md:px-[30px] desktop:px-20 pt-[38px] desktop:pt-[40px] desktop:pb-[15px] flex flex-col lg:flex-row gap-[30px] md:gap-[50px] desktop:gap-[71px] items-center w-full"
+        class="md:px-[30px] desktop:px-20 pt-4 sm:pt-[38px] desktop:pt-[40px] desktop:pb-[15px] flex flex-col lg:flex-row gap-[30px] md:gap-[50px] desktop:gap-[71px] items-center w-full"
       >
         <div
           class="max-w-[180px] md:max-w-[350px] desktop:max-w-[428px] md:w-auto"

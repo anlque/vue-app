@@ -57,7 +57,7 @@ const onSignTransaction = () => {
 
 <template>
   <div
-    class="w-full mt-[74px] md:mt-0 px-6 md:px-[30px] md:flex md:justify-center md:items-center h-full flex-1"
+    class="w-full mt-[74px] md:mt-0 px-2 sm:px-4 md:px-[30px] md:flex md:justify-center md:items-center pb-20 min-h-full"
   >
     <div
       class="px-1 pb-14 lg:pb-[30px] md:px-[30px] flex flex-col flex-1 gap-10 md:gap-[50px] md:w-full md:max-w-[688px]"
@@ -95,7 +95,9 @@ const onSignTransaction = () => {
           @click="onSignTransaction"
         >
           <CustomLoader v-if="isLoading" />
-          <span v-if="!isLoading"> Sign Transaction</span>
+          <p v-if="!isLoading">
+            Sign <span class="hidden sm:block"> Transaction</span>
+          </p>
         </CustomButton>
       </div>
     </div>

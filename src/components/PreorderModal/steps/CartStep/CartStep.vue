@@ -41,10 +41,10 @@ const { amountsInCrypto, amountsInUSD } = useCurrencyConversion(
 
 <template>
   <div
-    class="w-full mt-[74px] md:mt-0 px-6 md:px-[30px] md:flex md:justify-center flex-1 py-0"
+    class="w-full md:mt-0 sm:px-6 md:px-[30px] md:flex md:justify-center py-0 pb-20 min-h-full"
   >
     <div
-      class="px-1 pb-14 lg:pb-[30px] md:px-[30px] flex flex-col flex-1 gap-10 md:gap-[50px] md:w-full md:max-w-[688px]"
+      class="px-1 pt-5 pb-14 lg:pb-[30px] md:px-[30px] flex flex-col flex-1 gap-10 md:gap-[50px] md:w-full md:max-w-[688px]"
     >
       <div class="flex flex-col gap-2.5">
         <div class="flex items-center gap-1.5">
@@ -177,17 +177,19 @@ const { amountsInCrypto, amountsInUSD } = useCurrencyConversion(
           </p>
         </div>
       </div>
-      <div class="flex w-full gap-5 pt-5">
+      <div class="flex w-full gap-5 pt-1">
         <CustomButton class="w-1/2" @click="emit('onClose')">
           Close
         </CustomButton>
 
         <CustomButton
-          class="w-1/2"
+          class="w-1/2 flex gap-1"
           :isPrimary="true"
+          :disabled="addedItems.length === 0"
           @click="emit('onProceedClick')"
         >
-          Proceed to Shipping Info
+          Proceed
+          <span class="hidden sm:block"> to Shipping Info</span>
         </CustomButton>
       </div>
     </div>

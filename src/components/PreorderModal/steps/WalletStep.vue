@@ -153,7 +153,7 @@ const handleProceedClick = async () => {
 
 <template>
   <div
-    class="mt-[74px] md:mt-0 px-6 md:px-[30px] md:items-center md:flex md:justify-center flex-1"
+    class="mt-[74px] md:mt-0 px-2 sm:px-6 md:px-[30px] md:items-center md:flex md:justify-center pb-20 min-h-full"
   >
     <div class="flex flex-col gap-5">
       <div class="flex flex-col">

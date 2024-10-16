@@ -263,15 +263,17 @@ const emit = defineEmits(['setIsOpen', 'preorderClick']);
     class="fixed inset-0 z-50 flex items-center justify-center min-h-screen w-screen bg-[#0C1219]/75 backdrop-blur-[150px] bg-opacity-100"
   >
     <DialogPanel
-      class="flex flex-col w-full h-full mx-auto rounded-lg shadow-lg relative text-gray-900 bg-black/20 px-12"
+      class="flex flex-col w-full h-screen mx-auto rounded-lg shadow-lg relative text-gray-900 bg-black/20 px-2 sm:px-12"
     >
       <!--  header -->
-      <div class="flex items-center justify-between p-6 sticky">
-        <div class="flex justify-between items-center gap-2">
+      <div
+        class="flex items-center justify-end sm:justify-between py-6 px-2 md:px-6 sticky h-[4rem]"
+      >
+        <div class="hidden justify-between items-center gap-2 sm:flex">
           <IconLogo />
         </div>
         <div
-          class="desktop:flex desktop:items-center desktop:justify-center desktop:gap-[15px]"
+          class="flex gap-2 desktop:items-center desktop:justify-center desktop:gap-[15px]"
         >
           <CustomButton :isPrimary="true" @click="emit('preorderClick')"
             >Preorder Now</CustomButton
@@ -286,23 +288,24 @@ const emit = defineEmits(['setIsOpen', 'preorderClick']);
       </div>
       <!-- content -->
       <div
-        class="w-full overflow-y-auto flex-1 invisible-scrollbar flex justify-center box-border"
+        class="w-full min-h-screen overflow-y-auto flex-1 grow invisible-scrollbar flex justify-center box-border"
       >
-        <div
-          class="p-5 lg:px-0 flex flex-col md:flex-row md:max-w-[788px] lg:max-w-[826px] desktop:max-w-[866px]"
-        >
-          <ProductCard
-            :product="productDetails[0]"
-            :class="'md:pr-5 lg:pr-[30px] desktop:pr-[50px] text-left mt-0 flex flex-col gap-[30px] md:gap-6 lg:gap-[26px] flex-1'"
-          />
+        <div class="h-full">
           <div
-            class="my-[60px] bg-[linear-gradient(90deg,rgba(50,58,71,0.00)_0%,#323A47_50%,rgba(50,58,71,0.00)_99%)] h-[1px] block md:hidden"
-          ></div>
-          <ProductCard
-            :product="productDetails[1]"
-            :class="'relative md:pl-5 lg:pl-[30px] desktop:pl-[50px] text-left mt-0 flex flex-col gap-[30px] md:gap-6 lg:gap-[26px] md:before:content-[\'\'] md:before:absolute md:before:top-0 md:before:left-0 md:before:w-[1px] md:before:h-full md:before:bg-[linear-gradient(0deg,rgba(50,58,71,0.00)_0%,#323A47_50%,rgba(50,58,71,0.00)_99%)] flex-1'"
-          />
-        </div>
-      </div> </DialogPanel
+            class="p-5 lg:px-0 flex h-auto flex-col md:flex-row md:max-w-[788px] lg:max-w-[826px] desktop:max-w-[866px] min-h-full pb-36"
+          >
+            <ProductCard
+              :product="productDetails[0]"
+              :class="'md:pr-5 lg:pr-[30px] desktop:pr-[50px] text-left mt-0 flex flex-col gap-[30px] md:gap-6 lg:gap-[26px] flex-1'"
+            />
+            <div
+              class="my-[60px] bg-[linear-gradient(90deg,rgba(50,58,71,0.00)_0%,#323A47_50%,rgba(50,58,71,0.00)_99%)] h-[1px] block md:hidden"
+            ></div>
+            <ProductCard
+              :product="productDetails[1]"
+              :class="'relative md:pl-5 lg:pl-[30px] desktop:pl-[50px] text-left mt-0 flex flex-col gap-[30px] md:gap-6 lg:gap-[26px] md:before:content-[\'\'] md:before:absolute md:before:top-0 md:before:left-0 md:before:w-[1px] md:before:h-full md:before:bg-[linear-gradient(0deg,rgba(50,58,71,0.00)_0%,#323A47_50%,rgba(50,58,71,0.00)_99%)] flex-1'"
+            />
+          </div>
+        </div></div></DialogPanel
   ></Dialog>
 </template>

@@ -29,7 +29,7 @@ const isAgreed = ref(false);
 const isSubmitAttempted = ref(false);
 
 // hooks
-const { amountsInUSD } = useCurrencyConversion(
+const { amountsInCrypto, amountsInUSD } = useCurrencyConversion(
   [CRYPTO_CURRENCIES.ADA],
   total.value,
   {
@@ -68,10 +68,10 @@ const proceedToCheckout = () => {
 
 <template>
   <div
-    class="w-full mt-[74px] md:mt-0 px-6 md:px-[30px] md:flex md:justify-center flex-1 py-6 h-full"
+    class="w-full md:mt-0 sm:px-6 md:px-[30px] md:flex md:justify-center py-6 pb-20 min-h-full"
   >
     <div
-      class="px-1 pb-14 lg:pb-[30px] md:px-[30px] flex flex-col flex-1 gap-10 md:gap-[50px] md:w-full md:max-w-[688px]"
+      class="px-1 pb-14 lg:pb-[30px] md:px-[30px] flex flex-col flex-1 gap-2 md:gap-8 md:w-full md:max-w-[688px]"
     >
       <div class="flex flex-col gap-4">
         <div
@@ -231,7 +231,7 @@ const proceedToCheckout = () => {
           </div>
           <div class="flex items-center justify-between">
             <span
-              class="flex items-center justify-center rounded-full p-4 w-6 h-6 bg-[linear-gradient(86deg,#4E95FF_3.57%,#906AFF_95.84%)] text-lg leading-[22px] font-poppins font-medium text-text-grayscaleLicorice"
+              class="flex items-center justify-center rounded-full p-4 w-6 h-6 bg-[linear-gradient(86deg,#4E95FF_3.57%,#906AFF_95.84%)] text-lg leading-[22px] font-poppins font-medium text-grayscaleLicorice"
             >
               $
             </span>
@@ -242,8 +242,28 @@ const proceedToCheckout = () => {
             </p>
           </div>
         </div>
+        <div
+          class="flex md:items-center flex-col gap-2 : md:gap-0 md:flex-row md:justify-between"
+        >
+          <span
+            class="text-xs font-normal text-grayscaleWaterloo italic ml-auto md:ml-0"
+            >Including {{ CRYPTO_AMOUNT }}
+            {{ CRYPTO_CURRENCIES.ADA }} Conversion Fees and Free shipping</span
+          >
+          <p
+            class="text-xs font-normal text-grayscaleWaterloo capitalize ml-auto"
+          >
+            <span class="hidden md:inline-block"
+              >Current Market conversion =
+            </span>
+            <span class="italic text-grayscaleLicorice">
+              {{ formatPrice(amountsInCrypto[CRYPTO_CURRENCIES.ADA] || 0) }}
+              ADA</span
+            >
+          </p>
+        </div>
       </div>
-      <div class="flex items-center gap-[13px]">
+      <div class="flex items-center gap-[13px] py-2 sm:p-0">
         <div class="inline-flex items-center">
           <label class="flex items-center cursor-pointer relative">
             <input
@@ -284,7 +304,8 @@ const proceedToCheckout = () => {
             href="https://iagon.com/cyclone-legal"
             target="_blank"
             class="text-purple-cold underline cursor-pointer"
-            >Terms & Conditions</a
+          >
+            Terms & Conditions</a
           >
         </p>
       </div>
@@ -298,7 +319,8 @@ const proceedToCheckout = () => {
           class="w-1/2"
           @click="proceedToCheckout"
         >
-          Proceed To Checkout
+          Proceed
+          <span class="hidden sm:block"> To Checkout</span>
         </CustomButton>
       </div>
     </div>

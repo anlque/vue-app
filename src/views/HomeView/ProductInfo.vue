@@ -14,10 +14,10 @@ const { product } = defineProps<Props>();
     class="flex-1 overflow-x-auto invisible-scrollbar pt-0 md:pt-1 lg:pt-0 h-full"
   >
     <div
-      class="ui-mt-2 ui-ring-offset-background focus-visible:ui-outline-none focus-visible:ui-ring-1 focus-visible:ui-ring-primary focus-visible:ui-ring-offset-1 mt-0 min-w-[205px]"
+      class="ring-offset-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-purple-cold focus-visible:ring-offset-1 mt-0 min-w-[205px]"
     >
       <div
-        class="hidden md:flex md:gap-[26px] lg:gap-0 md:items-center md:justify-between"
+        class="flex md:gap-[26px] lg:gap-0 md:items-center md:justify-between"
       >
         <div class="flex flex-col gap-[2px] md:gap-[6px] text-left">
           <div

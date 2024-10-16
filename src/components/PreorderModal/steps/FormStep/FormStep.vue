@@ -16,24 +16,24 @@ const { updateField, validateForm } = formStore;
 const emit = defineEmits(['onSaveClick', 'onBackClick']);
 
 // local handlers
-function updateFormField(fieldName: keyof FormState, fieldValue: string) {
+const updateFormField = (fieldName: keyof FormState, fieldValue: string) => {
   updateField(fieldName, fieldValue);
-}
+};
 
-function validateAndSave() {
+const validateAndSave = () => {
   validateForm();
   if (!Object.values(formStore.errors).some((err) => err)) {
     emit('onSaveClick');
   }
-}
+};
 </script>
 
 <template>
   <div
-    class="w-full mt-[74px] md:mt-0 px-6 py-6 md:px-[30px] md:flex md:justify-center flex-1"
+    class="w-full md:mt-0 px-2 sm:px-6 py-6 md:px-[30px] md:flex md:justify-center pb-20 min-h-full"
   >
     <div
-      class="px-1 pb-14 lg:pb-[30px] md:px-[30px] flex flex-col flex-1 gap-10 md:gap-[50px] md:w-full md:max-w-[688px]"
+      class="px-1 pb-14 lg:pb-[30px] md:px-[30px] flex flex-col flex-1 gap-6 md:gap-[50px] md:w-full md:max-w-[688px]"
     >
       <div class="flex flex-col gap-6">
         <FormInput
@@ -151,13 +151,14 @@ function validateAndSave() {
           Autocomplete address may be inaccurate.
         </p>
       </div>
-      <div class="flex w-full gap-5 pt-5">
+      <div class="flex w-full gap-5">
         <CustomButton class="w-1/2" @click="emit('onBackClick')">
           Back
         </CustomButton>
 
         <CustomButton :isPrimary="true" class="w-1/2" @click="validateAndSave">
-          Save Shipping info
+          Save
+          <span class="hidden sm:block">Shipping info</span>
         </CustomButton>
       </div>
     </div>

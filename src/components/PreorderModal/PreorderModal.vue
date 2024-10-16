@@ -52,7 +52,7 @@ const disconnectWallet = () => {
     class="fixed inset-0 z-50 flex justify-center h-screen w-screen bg-[#0C1219]/75 backdrop-blur-[150px] bg-opacity-100"
   >
     <DialogPanel
-      class="w-full h-full mx-auto rounded-lg shadow-lg relative text-gray-900 bg-black/20 px-14"
+      class="w-full h-full mx-auto rounded-lg shadow-lg relative text-gray-900 bg-black/20 px-2 sm:px-14"
     >
       <!--  header -->
       <div class="flex items-center justify-between p-6 sticky max-h-[4rem]">
@@ -98,31 +98,33 @@ const disconnectWallet = () => {
       </div>
       <!-- content -->
       <div
-        class="w-full h-full !overflow-y-auto pb-10 invisible-scrollbar mt-[74px] md:mt-0 px-6 md:px-[30px] md:flex md:justify-center flex-1"
+        class="w-full h-full overflow-y-auto invisible-scrollbar md:mt-0 px-2 sm:px-6 md:px-[30px] md:flex md:justify-center flex-1"
       >
-        <WalletStep
-          v-if="wizardStore.currentStep === 1"
-          @onProceedClick="wizardStore.nextStep"
-        />
-        <CartStep
-          v-else-if="wizardStore.currentStep === 2"
-          @onClose="emit('setIsOpen', false)"
-          @onProceedClick="wizardStore.nextStep"
-        />
-        <FormStep
-          v-else-if="wizardStore.currentStep === 3"
-          @onSaveClick="wizardStore.nextStep"
-          @onBackClick="wizardStore.prevStep"
-        />
-        <SummaryStep
-          v-else-if="wizardStore.currentStep === 4"
-          @onBackClick="wizardStore.prevStep"
-          @onProceedClick="wizardStore.nextStep"
-        />
-        <PaymentStep
-          v-else-if="wizardStore.currentStep === 5"
-          @onBackClick="wizardStore.prevStep"
-        />
+        <div class="w-full">
+          <WalletStep
+            v-if="wizardStore.currentStep === 1"
+            @onProceedClick="wizardStore.nextStep"
+          />
+          <CartStep
+            v-else-if="wizardStore.currentStep === 2"
+            @onClose="emit('setIsOpen', false)"
+            @onProceedClick="wizardStore.nextStep"
+          />
+          <FormStep
+            v-else-if="wizardStore.currentStep === 3"
+            @onSaveClick="wizardStore.nextStep"
+            @onBackClick="wizardStore.prevStep"
+          />
+          <SummaryStep
+            v-else-if="wizardStore.currentStep === 4"
+            @onBackClick="wizardStore.prevStep"
+            @onProceedClick="wizardStore.nextStep"
+          />
+          <PaymentStep
+            v-else-if="wizardStore.currentStep === 5"
+            @onBackClick="wizardStore.prevStep"
+          />
+        </div>
       </div>
     </DialogPanel>
   </Dialog>
