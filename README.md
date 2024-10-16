@@ -1,5 +1,33 @@
 # vue-project
 
+Todo: cover with tests:
+- ProductDetailsPopup
+  - WalletStep
+    * title h1 exists
+    * section with wallets exists
+    * close btn click
+    * click on wallet shows section with change and proceed btns  
+    * click on change wallet hides section with btns 
+    * click on proceed btn opens next step of the wizard 
+    * check if wallet is not selected, proceed btn is disabled
+  - CartStep
+    * total price exists 
+    * all products rendered 
+    * check price change when the quantity of the products is increased 
+    * check price change when the quantity of the products is decreased 
+    * click on expand price opens section 
+    * close click 
+    * proceed click opens next step 
+  - FormStep
+    * all fields are rendered 
+    * check validate func when some values are out 
+    * back click return on prev step
+    * next click proceeds to next step 
+  - SummaryStep
+    * all products are rendered 
+    * check Ship To & Staking Requirement 
+    * check Products Total Price existance & value 
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
