@@ -158,10 +158,10 @@ const handleProceedClick = async () => {
     <div class="flex flex-col gap-5">
       <div class="flex flex-col">
         <p class="text-xl leading-[14px] font-bold text-purple-cold">
-          Connect your
+          Please, Select your
         </p>
         <h1
-          class="font-poppins text-grayscaleLicorice text-[40px] md:text-[52px] leadin-[66px] font-medium"
+          class="font-poppins text-grayscaleLicorice text-[30px] sm:text-[40px] md:text-[52px] leadin-[66px] font-medium"
         >
           Cardano
           <span class="font-poppins font-light text-purple-cold">Wallet</span>
@@ -206,7 +206,7 @@ const handleProceedClick = async () => {
 
       <div
         :class="[
-          'flex items-center gap-4 md:gap-[20px] mt-5 pb-[25px] md:pb-0 w-full',
+          'flex items-center gap-2 sm:gap-4 md:gap-[20px] mt-5 pb-[25px] md:pb-0 w-full',
           selectedWallet ? 'opacity-100' : 'opacity-0',
         ]"
       >

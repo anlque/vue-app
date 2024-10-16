@@ -75,7 +75,9 @@ const setActiveProduct = (product: ModelType) => {
 <template>
   <main class="w-screen h-screen overflow-y-auto invisible-scrollbar">
     <!-- header -->
-    <div class="flex justify-between h-[3.5rem] px-14 py-9 items-center">
+    <div
+      class="flex justify-between h-[3.5rem] px-4 sm:px-14 py-9 items-center"
+    >
       <IconLogo />
       <div class="flex items-center gap-3">
         <span
@@ -87,7 +89,9 @@ const setActiveProduct = (product: ModelType) => {
     </div>
 
     <!-- content -->
-    <div class="w-full px-2 sm:px-14 pb-20">
+    <div
+      class="w-full px-2 sm:px-14 pb-2 sm:pb-20 flex flex-col justify-between h-[calc(100vh-3.5rem)]"
+    >
       <div
         class="md:px-[30px] desktop:px-20 pt-4 sm:pt-[38px] desktop:pt-[40px] desktop:pb-[15px] flex flex-col lg:flex-row gap-[30px] md:gap-[50px] desktop:gap-[71px] items-center w-full"
       >
@@ -101,7 +105,7 @@ const setActiveProduct = (product: ModelType) => {
           />
         </div>
         <div
-          class="flex flex-1 flex-col w-full lg:max-w-[532px] desktop:max-w-[677px] text-center lg:text-left"
+          class="flex flex-1 max-w-[532px] flex-col w-full lg:max-w-[532px] desktop:max-w-[677px] text-center lg:text-left"
         >
           <div
             class="flex flex-col gap-[2px] desktop:gap-[10px] mb-4 desktop:mb-[20px]"
@@ -115,8 +119,10 @@ const setActiveProduct = (product: ModelType) => {
               id="cyclone-title"
               class="font-poppins font-semibold text-4xl leading-9 md:text-[56px] desktop:text-[66px] md:leading-[66px] text-grayscaleLicorice"
             >
-              Cyclone
-              <span class="font-light text-purple-cold font-poppins">Qs</span>
+              {{ PRODUCT_NAME }}
+              <span class="font-[275] text-purple-cold font-poppins">{{
+                MODEL_TYPE.QS
+              }}</span>
             </h1>
           </div>
 
@@ -138,7 +144,7 @@ const setActiveProduct = (product: ModelType) => {
             </p>
 
             <div
-              class="flex items-center gap-4 md:gap-[20px] pb-[25px] md:pb-0 w-full"
+              class="flex items-center gap-2 sm:gap-4 md:gap-[20px] pb-[25px] md:pb-0 w-full"
             >
               <CustomButton
                 id="product-details-btn"
@@ -162,7 +168,7 @@ const setActiveProduct = (product: ModelType) => {
             class="flex justify-center gap-5 md:gap-[30px] desktop:gap-[50px] items-center"
           >
             <div
-              class="inline-flex ui-h-10 items-center justify-center rounded-full bg-secondary p-1 border border-border text-muted-foreground bg-transparent items-start flex-col gap-[11px] shadow-none rounded-none border-none h-full"
+              class="inline-flex justify-center bg-secondary p-1 border border-border text-muted-foreground bg-transparent items-start flex-col gap-[11px] shadow-none rounded-none border-none h-full"
             >
               <div class="flex gap-[11px]">
                 <ProductButton
@@ -174,7 +180,7 @@ const setActiveProduct = (product: ModelType) => {
                 />
               </div>
               <p
-                class="capitalize md:text-[10px] desktop:text-xs leading-3 font-medium text-text-grayscaleLicorice hidden md:block"
+                class="capitalize text-left md:text-[10px] desktop:text-xs leading-3 font-medium text-grayscaleLicorice hidden md:block"
               >
                 {{ PRODUCT_NAME }} Models
               </p>
@@ -189,6 +195,7 @@ const setActiveProduct = (product: ModelType) => {
           @preorderClick="
             () => {
               setIsPreorderOpen(true);
+              setIsDetailsOpen(false);
             }
           "
         />
@@ -198,52 +205,14 @@ const setActiveProduct = (product: ModelType) => {
           @setIsOpen="setIsPreorderOpen"
         />
       </div>
+      <div
+        class="font-karla relative bottom-0 w-full p-6 sm:p-5 sm:pb-0 flex flex-col gap-1.5 sm:gap-3 justify-center sm:justify-end font-normal text-center sm:text-right text-[8px] sm:text-xs leading-3 text-grayscaleWaterloo"
+      >
+        <span>*Compared to Similar Devices</span>
+        <span class="italic"
+          >The images shown are for illustration purposes only</span
+        >
+      </div>
     </div>
   </main>
 </template>
-
-<!-- TODO: tests
-HomeView
-1) h1, Product Details button, Preorder Now button и секция под кнопками присутствуют на странице
-2) клик по Product Details button вызывает попап
-3) клик по Preorder Now button вызывает попап
-
-Product Details popup
-1) есть карточки
-2) есть кнопка Preorder Now и кнопка закрытия
-3) клик кнопка закрыть закрывает попап
-4) клик кнопка Preorder Now открывает попап Preorder Now
-
-Preorder Now попап
-1) есть заголовок h1
-2) есть секция с кошельками
-3) клик по кнопке закрыть закрывает
-4) клик по кошельку(одному по всем не нужно) открывает секцию change wallet и proceed
-5) клик по change wallet скрывает секцию с кнопками
-6) клик по proceed чекает что отображается второй степ
-
-второй шаг формы
-1) проверка что если не добавлены устройства то кнопка next disabled
-2) проверка тотал суммы, то что элемент присутствует
-3) проверка что отображены все устройства
-4) добавляем устройство, проверяем что тотал сумма изменилась
-5) уменьшаем на одно устройство, проверяем что сумма изменилась
-6) клик по expend price проверяем что доп секция отображается
-7) клик по close
-8) клик по next и проверка что отображается 3 шаг
-
-форма
-1) проверка всех полей, то что присутсвуют на странице
-2) проверка validate, если чего-то нет (достаточно одного двух полей) то кнопка next disable
-3) заполняем все поля нормально и проверяем что кнопка next enabled
-4) проверка что кнопка back возвращает на пред шаг
-5) клик по next и что отображается след шаг
-
-последний шаг
-1) проверяем что Products есть в попапе и его значение
-2) проверяем Ship To
-3) Staking Requirement*
-4) Products Total Price проверяем что есть на странице и значение
-5) проверяем что без чекбокса кнопка submit disabled
-6) проверяем что. счекбоксом кнопка submit enabled
--->

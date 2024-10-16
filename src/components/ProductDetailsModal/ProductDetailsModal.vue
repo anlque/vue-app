@@ -85,44 +85,43 @@ const productDetails: ProductDetail[] = [
       },
       { label: 'TF Card Slot', value: '1', id: 'slots', isHighlighted: false },
     ],
-    nodeOperationDetails: [
-      {
-        label: 'Storage Node',
-        value: 'Yes',
-        id: 'storage',
-        isHighlighted: false,
-      },
-      { label: 'Compute Node', value: 'Yes', id: 'cpu', isHighlighted: false },
-      {
-        label: 'Cardano Node',
-        value: 'No',
-        id: 'cardano',
-        isHighlighted: false,
-      },
-      {
-        label: 'Recommended Internet Speed',
-        value: '150 Mbps',
-        id: 'ram',
-        isHighlighted: false,
-      },
-    ],
-    stakeRequirement: {
-      min: {
-        value: 3922.51,
-        label:
-          'is calculated based on 900 GB, which is the minimum commitment required to launch a node',
-        isHighlighted: false,
-      },
-      max: {
-        value: 32687.6,
-        label:
-          'is calculated based on 7.5 TB, which is the max commitment available on the Qs',
-        isHighlighted: false,
-      },
-    },
+    // nodeOperationDetails: [
+    //   {
+    //     label: 'Storage Node',
+    //     value: 'Yes',
+    //     id: 'storage',
+    //     isHighlighted: false,
+    //   },
+    //   { label: 'Compute Node', value: 'Yes', id: 'cpu', isHighlighted: false },
+    //   {
+    //     label: 'Cardano Node',
+    //     value: 'No',
+    //     id: 'cardano',
+    //     isHighlighted: false,
+    //   },
+    //   {
+    //     label: 'Recommended Internet Speed',
+    //     value: '150 Mbps',
+    //     id: 'ram',
+    //     isHighlighted: false,
+    //   },
+    // ],
+    // stakeRequirement: {
+    //   min: {
+    //     value: 3922.51,
+    //     label:
+    //       'is calculated based on 900 GB, which is the minimum commitment required to launch a node',
+    //     isHighlighted: false,
+    //   },
+    //   max: {
+    //     value: 32687.6,
+    //     label:
+    //       'is calculated based on 7.5 TB, which is the max commitment available on the Qs',
+    //     isHighlighted: false,
+    //   },
+    // },
     pricing: {
-      unitPrice: { value: 1359.0, isHighlighted: false },
-      marketConversion: { value: 3841.44, isHighlighted: false },
+      unitPrice: { value: 400 },
     },
   },
   {
@@ -202,44 +201,43 @@ const productDetails: ProductDetail[] = [
       },
       { label: 'TF Card Slot', value: '1', id: 'slots', isHighlighted: false },
     ],
-    nodeOperationDetails: [
-      {
-        label: 'Storage Node',
-        value: 'Yes',
-        id: 'storage',
-        isHighlighted: false,
-      },
-      { label: 'Compute Node', value: 'Yes', id: 'cpu', isHighlighted: false },
-      {
-        label: 'Cardano Node',
-        value: 'Yes',
-        id: 'cardano',
-        isHighlighted: true,
-      },
-      {
-        label: 'Recommended Internet Speed',
-        value: '348 Mbps',
-        id: 'ram',
-        isHighlighted: true,
-      },
-    ],
-    stakeRequirement: {
-      min: {
-        value: 3922.51,
-        label:
-          'is calculated based on 900 GB, which is the minimum commitment required to launch a node',
-        isHighlighted: false,
-      },
-      max: {
-        value: 75084.59,
-        label:
-          'is calculated based on 17.4 TB, which is the max commitment available on the Qs Pro',
-        isHighlighted: true,
-      },
-    },
+    // nodeOperationDetails: [
+    //   {
+    //     label: 'Storage Node',
+    //     value: 'Yes',
+    //     id: 'storage',
+    //     isHighlighted: false,
+    //   },
+    //   { label: 'Compute Node', value: 'Yes', id: 'cpu', isHighlighted: false },
+    //   {
+    //     label: 'Cardano Node',
+    //     value: 'Yes',
+    //     id: 'cardano',
+    //     isHighlighted: true,
+    //   },
+    //   {
+    //     label: 'Recommended Internet Speed',
+    //     value: '348 Mbps',
+    //     id: 'ram',
+    //     isHighlighted: true,
+    //   },
+    // ],
+    // stakeRequirement: {
+    //   min: {
+    //     value: 3922.51,
+    //     label:
+    //       'is calculated based on 900 GB, which is the minimum commitment required to launch a node',
+    //     isHighlighted: false,
+    //   },
+    //   max: {
+    //     value: 75084.59,
+    //     label:
+    //       'is calculated based on 17.4 TB, which is the max commitment available on the Qs Pro',
+    //     isHighlighted: true,
+    //   },
+    // },
     pricing: {
-      unitPrice: { value: 1359.0, isHighlighted: true },
-      marketConversion: { value: 3841.44, isHighlighted: false },
+      unitPrice: { value: 600 },
     },
   },
 ];
@@ -260,14 +258,15 @@ const emit = defineEmits(['setIsOpen', 'preorderClick']);
   <Dialog
     :open="isOpen"
     @close="emit('setIsOpen', false)"
-    class="fixed inset-0 z-50 flex items-center justify-center min-h-screen w-screen bg-[#0C1219]/75 backdrop-blur-[150px] bg-opacity-100"
+    class="fixed inset-0 z-50 flex items-center justify-center min-h-screen w-screen bg-[#0C1219]/45 backdrop-blur-[150px] bg-opacity-100"
   >
     <DialogPanel
       class="flex flex-col w-full h-screen mx-auto rounded-lg shadow-lg relative text-gray-900 bg-black/20 px-2 sm:px-12"
     >
+      <div class="gradient" />
       <!--  header -->
       <div
-        class="flex items-center justify-end sm:justify-between py-6 px-2 md:px-6 sticky h-[4rem]"
+        class="flex items-center justify-end sm:justify-between pb-6 md:pb-3 pt-8 px-2 md:px-6 sticky h-[4rem]"
       >
         <div class="hidden justify-between items-center gap-2 sm:flex">
           <IconLogo />
@@ -275,8 +274,12 @@ const emit = defineEmits(['setIsOpen', 'preorderClick']);
         <div
           class="flex gap-2 desktop:items-center desktop:justify-center desktop:gap-[15px]"
         >
-          <CustomButton :isPrimary="true" @click="emit('preorderClick')"
-            >Preorder Now</CustomButton
+          <CustomButton
+            class="gap-1"
+            :isPrimary="true"
+            @click="emit('preorderClick')"
+            >Preorder
+            <span class="hidden sm:inline-block">Now</span></CustomButton
           >
           <button
             @click="emit('setIsOpen', false)"

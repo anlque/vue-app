@@ -19,18 +19,18 @@ interface StakeRequirement {
 }
 
 interface Pricing {
-  unitPrice: { value: number; isHighlighted: boolean };
-  marketConversion: { value: number; isHighlighted: boolean };
+  unitPrice: { value: number };
+  // marketConversion: { value: number; isHighlighted: boolean };
 }
 
 export interface ProductDetail {
   name: string;
   description: string;
   specifications: Specification[];
-  nodeOperationDetails: NodeOperationDetail[];
-  stakeRequirement: {
-    min: StakeRequirement;
-    max: StakeRequirement;
-  };
+  // nodeOperationDetails: NodeOperationDetail[];
+  // stakeRequirement: {
+  //   min: StakeRequirement;
+  //   max: StakeRequirement;
+  // };
   pricing: Pricing;
 }

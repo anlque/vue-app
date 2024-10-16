@@ -19,7 +19,8 @@ export default {
         'warning-hover': 'var(--warning-hover)',
       },
       fontFamily: {
-        poppins: ['var(--font-poppins)', 'sans-serif'],
+        poppins: ['var(--font-poppins)'],
+        karla: ['var(--font-karla)'],
       },
       screens: {
         md: '744px',
@@ -29,4 +30,4 @@ export default {
     },
   },
   plugins: [],
-}
+};

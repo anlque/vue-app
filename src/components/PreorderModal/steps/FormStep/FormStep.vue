@@ -151,7 +151,7 @@ const validateAndSave = () => {
           Autocomplete address may be inaccurate.
         </p>
       </div>
-      <div class="flex w-full gap-5">
+      <div class="flex w-full gap-2 sm:gap-4">
         <CustomButton class="w-1/2" @click="emit('onBackClick')">
           Back
         </CustomButton>

@@ -72,7 +72,7 @@ const onSignTransaction = () => {
         >
       </div>
 
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-2 sm:gap-4">
         <PaymentMethodCard
           v-for="paymentMethod in paymentMethods"
           :key="paymentMethod"

@@ -179,7 +179,7 @@ const { amountsInCrypto, amountsInUSD } = useCurrencyConversion(
           </p>
         </div>
       </div>
-      <div class="flex w-full gap-5 pt-1">
+      <div class="flex w-full gap-2 sm:gap-4 pt-1">
         <CustomButton class="w-1/2" @click="emit('onClose')">
           Close
         </CustomButton>

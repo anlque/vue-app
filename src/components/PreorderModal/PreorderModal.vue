@@ -49,13 +49,16 @@ const disconnectWallet = () => {
   <Dialog
     :open="isOpen"
     @close="emit('setIsOpen', false)"
-    class="fixed inset-0 z-50 flex justify-center h-screen w-screen bg-[#0C1219]/75 backdrop-blur-[150px] bg-opacity-100"
+    class="fixed inset-0 z-50 flex justify-center h-screen w-screen bg-[#0C1219]/45 backdrop-blur-[150px] bg-opacity-100"
   >
     <DialogPanel
       class="w-full h-full mx-auto rounded-lg shadow-lg relative text-gray-900 bg-black/20 px-2 sm:px-14"
     >
+      <div class="gradient" />
       <!--  header -->
-      <div class="flex items-center justify-between p-6 sticky max-h-[4rem]">
+      <div
+        class="flex items-center justify-between px-2 py-6 sm:px-6 sticky max-h-[4rem]"
+      >
         <div class="flex gap-2 items-center">
           <IconLogo />
           <p

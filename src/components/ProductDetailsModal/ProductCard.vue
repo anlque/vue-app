@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
-import { CRYPTO_CURRENCIES, DEFAULT_CURRENCY, PRODUCT_NAME } from '@/constants';
+import { defineProps, ref } from 'vue';
+import { useCurrencyConversion } from '@/hooks/useCurrencyConversion';
 import { formatPrice } from '@/utils/formatters';
-import { IconLogo } from '@/components/icons';
+import { CRYPTO_CURRENCIES, DEFAULT_CURRENCY, PRODUCT_NAME } from '@/constants';
 import type { ProductDetail } from './types';
 import SpecificationCaption from './SpecificationCaption.vue';
+import type { Currency } from '@/stores/wallet';
 
 // interfaces
 interface Props {
@@ -13,6 +14,17 @@ interface Props {
 
 // props
 const { product } = defineProps<Props>();
+
+// hooks
+const currencies = ref<Currency[]>([CRYPTO_CURRENCIES.ADA]);
+const cryptoAmounts = ref({
+  [CRYPTO_CURRENCIES.ADA]: product.pricing.unitPrice.value,
+});
+const { amountsInUSD } = useCurrencyConversion(
+  currencies,
+  ref(null),
+  cryptoAmounts,
+);
 </script>
 
 <template>
@@ -41,130 +53,27 @@ const { product } = defineProps<Props>();
       />
     </div>
     <div class="flex flex-col gap-2">
-      <p
-        class="text-xs italic font-normal leading-[18px] text-grayscale-waterloo"
-      >
-        Node Operation Details
-      </p>
-      <div
-        class="p-3 flex flex-col gap-[10px] rounded-lg bg-[rgba(155,158,255,0.13)]"
-      >
-        <SpecificationCaption
-          v-for="item in product.nodeOperationDetails"
-          :key="item.value"
-          :id="item.id"
-          :title="item.label"
-          :value="item.value"
-          :isHighlighted="item.isHighlighted"
-        />
-        <div class="border-t border-grayscale-line pt-3">
-          <div class="flex flex-col gap-2.5">
-            <p
-              class="text-[13px] leading-3 font-medium text-grayscaleLicorice capitalize"
-            >
-              Stake Requirement
-            </p>
-            <div
-              class="flex items-center gap-[10px] bg-[rgba(155,158,255,0.13)] p-[6px] pr-3 rounded-lg"
-            >
-              <div class="flex items-center justify-center gap-[6px]">
-                <span
-                  class="flex items-center justify-center size-6 p-1 rounded-full bg-grayscale-milk-white"
-                >
-                  <IconLogo />
-                </span>
-                <p
-                  class="text-[13px] leading-3 font-medium text-grayscaleLicorice capitalize text-ellipsis whitespace-nowrap overflow-hidden w-[92px] sm:w-full"
-                >
-                  Minimum
-                </p>
-              </div>
-              <p
-                :class="[
-                  'text-right text-xl leading-[18px] font-normal flex-1',
-                  product.stakeRequirement.min.isHighlighted
-                    ? 'text-warning-hover'
-                    : 'text-purple-cold ',
-                ]"
-              >
-                {{ formatPrice(product.stakeRequirement.min.value) }} IAG
-              </p>
-            </div>
-            <div
-              class="flex items-center gap-[10px] bg-[rgba(155,158,255,0.13)] p-[6px] pr-3 rounded-lg"
-            >
-              <div class="flex items-center justify-center gap-[6px]">
-                <span
-                  class="flex items-center justify-center size-6 p-1 rounded-full bg-grayscale-milk-white"
-                >
-                  <IconLogo />
-                </span>
-                <p
-                  class="text-[13px] leading-3 font-medium text-grayscaleLicorice capitalize text-ellipsis whitespace-nowrap overflow-hidden w-[92px] sm:w-full"
-                >
-                  Maximum
-                </p>
-              </div>
-              <p
-                :class="[
-                  'text-right text-xl leading-[18px] font-normal flex-1',
-                  product.stakeRequirement.max.isHighlighted
-                    ? 'text-warning-hover'
-                    : 'text-purple-cold ',
-                ]"
-              >
-                {{ formatPrice(product.stakeRequirement.max.value) }} IAG
-              </p>
-            </div>
-            <p
-              class="text-xs leading-[18px] italic font-normal text-grayscale-waterloo"
-            >
-              <span class="text-white">Minimum</span>
-              {{ product.stakeRequirement.min.label }}
-            </p>
-            <p
-              class="text-xs leading-[18px] italic font-normal text-grayscale-waterloo"
-            >
-              <span class="text-white">Maximum</span>
-              {{ product.stakeRequirement.max.label }}
-            </p>
-          </div>
-        </div>
-      </div>
-
       <div class="flex flex-col gap-3 pt-0 md:pt-[18px]">
-        <div class="flex items-baseline justify-between">
+        <div class="flex items-center justify-between">
           <p
             class="capitalize text-xl leading-3 font-medium text-grayscaleLicorice"
           >
             Unit Price
           </p>
           <p
-            :class="[
-              'text-[28px] text-right font-poppins leading-8',
-              product.pricing.unitPrice.isHighlighted
-                ? 'text-warning-hover'
-                : 'text-purple-cold',
-            ]"
+            class="text-[28px] text-right font-poppins text-purple-cold leading-8"
           >
-            {{ formatPrice(product.pricing.unitPrice.value) }}
-            {{ DEFAULT_CURRENCY.toUpperCase() }}
+            {{ product.pricing.unitPrice.value }}
+            {{ CRYPTO_CURRENCIES.ADA }}
           </p>
         </div>
         <div class="flex items-center justify-between">
           <p class="text-grayscale-waterloo text-xs font-normal leading-3">
             Current Market Conversion:
           </p>
-          <p
-            :class="[
-              'text-xs font-normal leading-3',
-              product.pricing.marketConversion.isHighlighted
-                ? 'text-warning-hover'
-                : 'text-grayscaleLicorice',
-            ]"
-          >
-            {{ formatPrice(product.pricing.marketConversion.value) }}
-            {{ CRYPTO_CURRENCIES.ADA }}
+          <p :class="['text-xs font-normal leading-3 text-grayscaleLicorice']">
+            {{ formatPrice(amountsInUSD[CRYPTO_CURRENCIES.ADA] || 0) }}
+            {{ DEFAULT_CURRENCY.toUpperCase() }}
           </p>
         </div>
       </div>

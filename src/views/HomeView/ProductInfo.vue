@@ -17,7 +17,7 @@ const { product } = defineProps<Props>();
       class="ring-offset-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-purple-cold focus-visible:ring-offset-1 mt-0 min-w-[205px]"
     >
       <div
-        class="flex md:gap-[26px] lg:gap-0 md:items-center md:justify-between"
+        class="flex gap-5 md:gap-[26px] lg:gap-0 md:items-center md:justify-between"
       >
         <div class="flex flex-col gap-[2px] md:gap-[6px] text-left">
           <div
@@ -26,7 +26,7 @@ const { product } = defineProps<Props>();
             {{ product.specs.cpuCores.value }}x
           </div>
           <p
-            class="capitalize text-[8px] md:text-[10px] desktop:text-xs leading-3 font-medium text-text-grayscaleLicorice text-nowrap"
+            class="capitalize text-[8px] md:text-[10px] desktop:text-xs leading-3 font-medium text-grayscaleLicorice text-nowrap"
           >
             {{ product.specs.cpuCores.label }}
           </p>
@@ -38,19 +38,19 @@ const { product } = defineProps<Props>();
             {{ product.specs.ramMemory.value }}x
           </div>
           <p
-            class="capitalize text-[8px] md:text-[10px] desktop:text-xs leading-3 font-medium text-text-grayscaleLicorice text-nowrap"
+            class="capitalize text-[8px] md:text-[10px] desktop:text-xs leading-3 font-medium text-grayscaleLicorice text-nowrap"
           >
             {{ product.specs.ramMemory.label }}
           </p>
         </div>
-        <div class="flex flex-col gap-[2px] md:gap-[6px] text-left">
+        <div class="hidden sm:flex flex-col gap-[2px] md:gap-[6px] text-left">
           <div
             class="font-poppins text-xl md:text-[32px] text-purple-cold font-light leading-[18px] lg:leading-8"
           >
             {{ product.specs.ethernet.value }}x
           </div>
           <p
-            class="capitalize text-[8px] md:text-[10px] desktop:text-xs leading-3 font-medium text-text-grayscaleLicorice text-nowrap"
+            class="capitalize text-[8px] md:text-[10px] desktop:text-xs leading-3 font-medium text-grayscaleLicorice text-nowrap"
           >
             {{ product.specs.ethernet.label }}
           </p>
@@ -62,7 +62,7 @@ const { product } = defineProps<Props>();
             {{ product.specs.storage.value }}x
           </div>
           <p
-            class="capitalize text-[8px] md:text-[10px] desktop:text-xs leading-3 font-medium text-text-grayscaleLicorice text-nowrap"
+            class="capitalize text-[8px] md:text-[10px] desktop:text-xs leading-3 font-medium text-grayscaleLicorice text-nowrap"
           >
             {{ product.specs.storage.label }}
           </p>
